@@ -1,19 +1,17 @@
 package com.learn.admin.controller;
 
 import com.learn.admin.model.User;
-import com.learn.admin.repository.UserRepository;
+import com.learn.admin.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class UserController {
-    private final UserRepository userRepository;
-
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final UserService userService;
 
     @GetMapping("/hello")
     public String hello() {
@@ -22,6 +20,6 @@ public class UserController {
 
     @GetMapping("/user")
     public List<User> getUser() {
-        return userRepository.findAll();
+        return userService.getAllUser();
     }
 }

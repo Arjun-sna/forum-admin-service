@@ -2,11 +2,9 @@ package com.learn.admin.model;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Data
@@ -24,4 +22,12 @@ public class User {
     @Column(unique = true)
     private String setPasswordToken;
     private Date setPasswordTokenExpiry;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_connections",
+            joinColumns = @JoinColumn(name = "user_id_f"),
+            inverseJoinColumns = @JoinColumn(name = "user_id_t")
+    )
+    private Set<User> friends;
 }
