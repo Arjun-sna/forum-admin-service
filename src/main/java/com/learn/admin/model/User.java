@@ -2,6 +2,7 @@ package com.learn.admin.model;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @Data
-@Builder
+@NoArgsConstructor
 @Table(name = "users")
 public class User {
     @Id

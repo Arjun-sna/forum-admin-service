@@ -18,12 +18,11 @@ public class UserService {
     }
 
     public User createUser(CreateUserData createUserData) {
-        User user = User.builder()
-                .firstName(createUserData.getFirstName())
-                .lastName(createUserData.getLastName())
-                .email(createUserData.getEmail())
-                .password(createUserData.getPassword())
-                .build();
+        User user = new User();
+        user.setFirstName(createUserData.getFirstName());
+        user.setLastName(createUserData.getLastName());
+        user.setEmail(createUserData.getEmail());
+        user.setPassword(createUserData.getPassword());
         return userRepository.save(user);
     }
 }
