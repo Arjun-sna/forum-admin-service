@@ -9,15 +9,18 @@ import javax.validation.constraints.Size;
 @Data
 public class CreateUserData {
     @NotBlank
-    @Size(min = 3)
+    @Size(min = 3, max = 100)
     private String firstName;
 
     @NotBlank
-    @Size(min = 2)
+    @Size(min = 2, max = 100)
     private String lastName;
 
     @NotBlank
-    @Pattern(regexp = "(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]{2,}$)")
+    @Pattern(
+            regexp = "(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]{2,}$)",
+            message = "Should be a valid email address"
+    )
     private String email;
 
     @NotBlank
