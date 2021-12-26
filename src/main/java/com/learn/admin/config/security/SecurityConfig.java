@@ -1,4 +1,4 @@
-package com.learn.admin.config;
+package com.learn.admin.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

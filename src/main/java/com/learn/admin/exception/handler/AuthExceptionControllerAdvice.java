@@ -1,4 +1,4 @@
-package com.learn.admin.controlleradvice;
+package com.learn.admin.exception.handler;
 
 import com.learn.admin.exception.ErrorResponse;
 import org.springframework.http.HttpStatus;
