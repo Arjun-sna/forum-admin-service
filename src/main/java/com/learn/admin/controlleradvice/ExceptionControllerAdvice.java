@@ -1,6 +1,7 @@
 package com.learn.admin.controlleradvice;
 
 import com.learn.admin.exception.ErrorResponse;
+import com.learn.admin.exception.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,13 @@ public class ExceptionControllerAdvice {
                 .map(error -> error.getField() + " " + error.getDefaultMessage())
                 .collect(Collectors.joining("; "));
         log.info(errorMessage);
-        return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), errorMessage, null), HttpStatus.BAD_REQUEST);
+        return ResponseEntity.badRequest().body(new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), errorMessage, null));
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ErrorResponse> handleValidationException(ValidationException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), ex.getMessage(), null);
+        log.info(ex.getMessage());
+        return ResponseEntity.badRequest().body(errorResponse);
     }
 }
