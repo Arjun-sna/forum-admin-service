@@ -13,6 +13,17 @@ import java.util.Set;
 @NoArgsConstructor
 @Table(name = "users")
 public class User {
+    public User(User user) {
+        this.id = user.id;
+        this.password = user.password;
+        this.email = user.email;
+        this.firstName = user.firstName;
+        this.lastName = user.lastName;
+        this.setPasswordToken = user.setPasswordToken;
+        this.setPasswordTokenExpiry = user.setPasswordTokenExpiry;
+        this.friends = user.friends;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

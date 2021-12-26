@@ -2,8 +2,14 @@ package com.learn.admin.controller;
 
 import com.learn.admin.model.User;
 import com.learn.admin.payload.CreateUserData;
+import com.learn.admin.payload.JwtResponse;
+import com.learn.admin.payload.SignInData;
 import com.learn.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final AuthenticationManager authenticationManager;
 
     @GetMapping("/hello")
     public String hello() {
@@ -30,5 +37,19 @@ public class UserController {
     @PostMapping("/user")
     public User createUser(@Valid @RequestBody CreateUserData createUserData) {
         return userService.createUser(createUserData);
+    }
+
+    @PostMapping("/sign_in")
+    public JwtResponse signIn(@Valid @RequestBody SignInData signInData) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        signInData.getEmail(),
+                        signInData.getPassword()
+                )
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return new JwtResponse();
     }
 }

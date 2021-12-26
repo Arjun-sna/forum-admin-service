@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,9 +22,9 @@ public class UserService {
     }
 
     public User createUser(CreateUserData createUserData) {
-        User existingUser = userRepository.findByEmail(createUserData.getEmail());
+        Optional<User> existingUser = userRepository.findByEmail(createUserData.getEmail());
 
-        if (existingUser != null) {
+        if (existingUser.isPresent()) {
             throw new ValidationException("User already exists with same email");
         }
 
@@ -33,5 +34,9 @@ public class UserService {
         user.setEmail(createUserData.getEmail());
         user.setPassword(passwordEncoder.encode(createUserData.getPassword()));
         return userRepository.save(user);
+    }
+
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }
