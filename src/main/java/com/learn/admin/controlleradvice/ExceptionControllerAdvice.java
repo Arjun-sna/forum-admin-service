@@ -29,4 +29,11 @@ public class ExceptionControllerAdvice {
         log.info(ex.getMessage());
         return ResponseEntity.badRequest().body(errorResponse);
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponse> handleUnCaughtException(RuntimeException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.toString(), "Internal error", null);
+        log.info(ex.getMessage());
+        return ResponseEntity.internalServerError().body(errorResponse);
+    }
 }
