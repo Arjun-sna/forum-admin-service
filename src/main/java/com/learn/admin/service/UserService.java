@@ -5,6 +5,7 @@ import com.learn.admin.model.User;
 import com.learn.admin.payload.CreateUserData;
 import com.learn.admin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public List<User> getAllUser() {
         return userRepository.findAll();
@@ -29,7 +31,7 @@ public class UserService {
         user.setFirstName(createUserData.getFirstName());
         user.setLastName(createUserData.getLastName());
         user.setEmail(createUserData.getEmail());
-        user.setPassword(createUserData.getPassword());
+        user.setPassword(passwordEncoder.encode(createUserData.getPassword()));
         return userRepository.save(user);
     }
 }
