@@ -1,5 +1,6 @@
 package com.learn.admin.service;
 
+import com.learn.admin.payload.UserOrder;
 import com.learn.admin.payload.UserSort;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.User;
@@ -21,8 +22,10 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Page<User> getAllUser(int page, int limit, UserSort userSort) {
-        Pageable pageRequest = PageRequest.of(page, limit, Sort.by(userSort.value()));
+    public Page<User> getAllUser(int page, int limit, UserSort userSort, UserOrder userOrder) {
+        Sort sortConfig = Sort.by(userOrder == UserOrder.ASC
+                ? Sort.Order.asc(userSort.value()) : Sort.Order.desc(userSort.value()));
+        Pageable pageRequest = PageRequest.of(page, limit, sortConfig);
         return userRepository.findAll(pageRequest);
     }
 

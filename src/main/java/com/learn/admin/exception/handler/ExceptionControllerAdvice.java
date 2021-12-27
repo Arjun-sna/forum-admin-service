@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.stream.Collectors;
 
@@ -20,7 +21,15 @@ public class ExceptionControllerAdvice {
                 .map(error -> error.getField() + " " + error.getDefaultMessage())
                 .collect(Collectors.joining("; "));
         log.info(errorMessage);
-        return ResponseEntity.badRequest().body(new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), errorMessage, null));
+        return ResponseEntity.badRequest().body(
+                new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), errorMessage, null));
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handleMethodArgumentsTypeValidationError(MethodArgumentTypeMismatchException ex) {
+        log.info(ex.getMessage());
+        return ResponseEntity.badRequest().body(
+                new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), "Invalid argument type", null));
     }
 
     @ExceptionHandler(ValidationException.class)

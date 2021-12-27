@@ -1,12 +1,9 @@
 package com.learn.admin.controller;
 
-import com.learn.admin.payload.UserSort;
+import com.learn.admin.payload.*;
 import com.learn.admin.config.security.JwtUtil;
 import com.learn.admin.model.AuthUser;
 import com.learn.admin.model.User;
-import com.learn.admin.payload.CreateUserData;
-import com.learn.admin.payload.JwtResponse;
-import com.learn.admin.payload.SignInData;
 import com.learn.admin.service.AuthService;
 import com.learn.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -42,9 +39,10 @@ public class UserController {
     public Page<User> getUser(
             @RequestParam(defaultValue = "0",required = false) Integer page,
             @RequestParam(defaultValue = "10",required = false) Integer limit,
-            @RequestParam(defaultValue = "firstName", required = false) UserSort sort
+            @RequestParam(defaultValue = "firstName", required = false) UserSort sort,
+            @RequestParam(defaultValue = "asc", required = false) UserOrder order
     ) {
-        return userService.getAllUser(page, limit, sort);
+        return userService.getAllUser(page, limit, sort, order);
     }
 
     @PostMapping("/users")
