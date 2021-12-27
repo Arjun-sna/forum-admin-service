@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 @Data
@@ -21,7 +20,6 @@ public class User {
         this.lastName = user.lastName;
         this.setPasswordToken = user.setPasswordToken;
         this.setPasswordTokenExpiry = user.setPasswordTokenExpiry;
-        this.friends = user.friends;
     }
 
     @Id
@@ -41,12 +39,4 @@ public class User {
     private String setPasswordToken;
     @JsonIgnore
     private Date setPasswordTokenExpiry;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_connections",
-            joinColumns = @JoinColumn(name = "user_id_f"),
-            inverseJoinColumns = @JoinColumn(name = "user_id_t")
-    )
-    private Set<User> friends;
 }
