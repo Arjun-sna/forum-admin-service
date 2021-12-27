@@ -1,6 +1,6 @@
 package com.learn.admin.controller;
 
-import com.learn.admin.config.data.UserSort;
+import com.learn.admin.payload.UserSort;
 import com.learn.admin.config.security.JwtUtil;
 import com.learn.admin.model.AuthUser;
 import com.learn.admin.model.User;

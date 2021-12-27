@@ -1,6 +1,6 @@
 package com.learn.admin.service;
 
-import com.learn.admin.config.data.UserSort;
+import com.learn.admin.payload.UserSort;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.User;
 import com.learn.admin.payload.CreateUserData;

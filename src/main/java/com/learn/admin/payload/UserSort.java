@@ -1,4 +1,4 @@
-package com.learn.admin.config.data;
+package com.learn.admin.payload;
 
 
 import java.util.stream.Stream;
