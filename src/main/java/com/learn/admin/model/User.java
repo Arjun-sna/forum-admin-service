@@ -1,5 +1,6 @@
 package com.learn.admin.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,10 +33,14 @@ public class User {
 
     @Column(unique = true)
     private String email;
+
+    @JsonIgnore
     private String password;
 
     @Column(unique = true)
+    @JsonIgnore
     private String setPasswordToken;
+    @JsonIgnore
     private Date setPasswordTokenExpiry;
 
     @ManyToMany(fetch = FetchType.LAZY)
