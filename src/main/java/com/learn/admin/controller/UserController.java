@@ -1,5 +1,7 @@
 package com.learn.admin.controller;
 
+import com.learn.admin.config.security.JwtUtil;
+import com.learn.admin.model.AuthUser;
 import com.learn.admin.model.User;
 import com.learn.admin.payload.CreateUserData;
 import com.learn.admin.payload.JwtResponse;
@@ -23,6 +25,7 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
 
     @GetMapping("/hello")
     public String hello() {
@@ -49,7 +52,8 @@ public class UserController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtUtil.generateAccessToken((AuthUser) authentication.getPrincipal());
 
-        return new JwtResponse();
+        return JwtResponse.of(token);
     }
 }

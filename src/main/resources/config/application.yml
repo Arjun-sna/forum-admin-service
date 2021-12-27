@@ -7,3 +7,9 @@ spring:
     url: "jdbc:postgresql://localhost:5432/polaris_dev"
     username: "a0s0eqs"
     password: "password"
+
+security:
+  jwt:
+    prefix: "Bearer "
+    expiration: 604800000
+    secret: "VPOzqnLsrjZ0KXevFMHZ7awuo1wKjnim"
