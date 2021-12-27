@@ -1,6 +1,8 @@
 package com.learn.admin.config.data;
 
 
+import java.util.stream.Stream;
+
 public enum UserSort {
     FIRSTNAME("firstName"),
     LASTNAME("lastName"),
@@ -21,11 +23,9 @@ public enum UserSort {
     }
 
     public static UserSort of(String fieldName) {
-        for (UserSort value : VALUES) {
-            if (value.fieldName.equalsIgnoreCase(fieldName)) {
-                return value;
-            }
-        }
-        throw new IllegalArgumentException("No matching constant for [" + fieldName + "]");
+        return Stream.of(VALUES)
+                .filter(value -> value.fieldName.equalsIgnoreCase(fieldName))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("No matching constant for [" + fieldName + "]"));
     }
 }
