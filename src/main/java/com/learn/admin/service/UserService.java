@@ -1,14 +1,18 @@
 package com.learn.admin.service;
 
+import com.learn.admin.config.data.UserSort;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.User;
 import com.learn.admin.payload.CreateUserData;
 import com.learn.admin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,8 +21,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public List<User> getAllUser() {
-        return userRepository.findAll();
+    public Page<User> getAllUser(int page, int limit, UserSort userSort) {
+        Pageable pageRequest = PageRequest.of(page, limit, Sort.by(userSort.value()));
+        return userRepository.findAll(pageRequest);
     }
 
     public User createUser(CreateUserData createUserData) {

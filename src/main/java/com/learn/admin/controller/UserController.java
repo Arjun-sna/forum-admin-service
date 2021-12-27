@@ -1,5 +1,6 @@
 package com.learn.admin.controller;
 
+import com.learn.admin.config.data.UserSort;
 import com.learn.admin.config.security.JwtUtil;
 import com.learn.admin.model.AuthUser;
 import com.learn.admin.model.User;
@@ -9,17 +10,14 @@ import com.learn.admin.payload.SignInData;
 import com.learn.admin.service.AuthService;
 import com.learn.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -40,12 +38,16 @@ public class UserController {
         return userService.getUserById(authService.getLoggedInUserId());
     }
 
-    @GetMapping("/user")
-    public List<User> getUser() {
-        return userService.getAllUser();
+    @GetMapping("/users")
+    public Page<User> getUser(
+            @RequestParam(defaultValue = "0",required = false) Integer page,
+            @RequestParam(defaultValue = "10",required = false) Integer limit,
+            @RequestParam(defaultValue = "firstName", required = false) UserSort sort
+    ) {
+        return userService.getAllUser(page, limit, sort);
     }
 
-    @PostMapping("/user")
+    @PostMapping("/users")
     public User createUser(@Valid @RequestBody CreateUserData createUserData) {
         return userService.createUser(createUserData);
     }
