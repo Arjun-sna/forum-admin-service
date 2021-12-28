@@ -1,13 +1,21 @@
 package com.learn.admin.model;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public class AuthUser extends User implements UserDetails {
-    public AuthUser(final User user) {
-        super(user);
+@RequiredArgsConstructor
+public class AuthUser implements UserDetails {
+    private final User user;
+
+    public int getId() {
+        return this.user.getId();
+    }
+
+    public String getEmail() {
+        return this.user.getEmail();
     }
 
     @Override
@@ -16,8 +24,13 @@ public class AuthUser extends User implements UserDetails {
     }
 
     @Override
+    public String getPassword() {
+        return this.user.getPassword();
+    }
+
+    @Override
     public String getUsername() {
-        return getFirstName();
+        return this.user.getEmail();
     }
 
     @Override
