@@ -1,5 +1,6 @@
 package com.learn.admin.controller;
 
+import com.learn.admin.exception.ValidationException;
 import com.learn.admin.payload.*;
 import com.learn.admin.config.security.JwtUtil;
 import com.learn.admin.model.AuthUser;
@@ -43,6 +44,14 @@ public class UserController {
             @RequestParam(defaultValue = "asc", required = false) UserOrder order
     ) {
         return userService.getAllUser(page, limit, sort, order);
+    }
+
+    @GetMapping("/users/{id}")
+    public User getUserById(
+            @PathVariable Integer id
+    ) {
+        return userService.getUserById(id)
+                .orElseThrow(() -> new ValidationException("User not found"));
     }
 
     @PostMapping("/users")
