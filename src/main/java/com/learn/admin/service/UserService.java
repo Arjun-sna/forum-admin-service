@@ -1,5 +1,6 @@
 package com.learn.admin.service;
 
+import com.learn.admin.model.Role;
 import com.learn.admin.payload.UserOrder;
 import com.learn.admin.payload.UserSort;
 import com.learn.admin.exception.ValidationException;
@@ -29,7 +30,7 @@ public class UserService {
         return userRepository.findAll(pageRequest);
     }
 
-    public User createUser(CreateUserData createUserData) {
+    public User createUser(CreateUserData createUserData, int accountId, Role role) {
         Optional<User> existingUser = userRepository.findByEmailOrUsername(
                 createUserData.getEmail(), createUserData.getUsername());
 
@@ -38,6 +39,9 @@ public class UserService {
         }
 
         User user = new User();
+        user.setAccountId(accountId);
+        user.setRole(role);
+        user.setUsername(createUserData.getUsername());
         user.setFirstName(createUserData.getFirstName());
         user.setLastName(createUserData.getLastName());
         user.setEmail(createUserData.getEmail());

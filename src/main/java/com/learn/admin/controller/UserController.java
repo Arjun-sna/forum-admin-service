@@ -1,6 +1,7 @@
 package com.learn.admin.controller;
 
 import com.learn.admin.exception.ValidationException;
+import com.learn.admin.model.Role;
 import com.learn.admin.model.User;
 import com.learn.admin.payload.CreateUserData;
 import com.learn.admin.payload.UserOrder;
@@ -45,6 +46,7 @@ public class UserController {
 
     @PostMapping("/users")
     public User createUser(@Valid @RequestBody CreateUserData createUserData) {
-        return userService.createUser(createUserData);
+        // TODO: 28/12/21 remove hardcode value
+        return userService.createUser(createUserData, 1, new Role());
     }
 }

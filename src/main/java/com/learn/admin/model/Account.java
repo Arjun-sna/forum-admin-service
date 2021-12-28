@@ -17,7 +17,7 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String displayName;
+    private String name;
 
     @OneToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
