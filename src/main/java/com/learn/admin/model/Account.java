@@ -1,12 +1,16 @@
 package com.learn.admin.model;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @NoArgsConstructor
+@Getter
+@Setter
 @Table(name = "accounts")
 public class Account {
     @Id

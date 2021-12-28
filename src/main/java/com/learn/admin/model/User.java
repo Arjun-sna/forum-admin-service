@@ -30,4 +30,8 @@ public class User {
 
     private int accountId;
     private Date dateJoined;
+
+    @OneToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private Role role;
 }

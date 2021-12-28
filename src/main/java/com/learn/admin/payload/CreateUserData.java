@@ -10,6 +10,10 @@ import javax.validation.constraints.Size;
 public class CreateUserData {
     @NotBlank
     @Size(min = 3, max = 100)
+    private String username;
+
+    @NotBlank
+    @Size(min = 3, max = 100)
     private String firstName;
 
     @NotBlank

@@ -30,10 +30,11 @@ public class UserService {
     }
 
     public User createUser(CreateUserData createUserData) {
-        Optional<User> existingUser = userRepository.findByEmail(createUserData.getEmail());
+        Optional<User> existingUser = userRepository.findByEmailOrUsername(
+                createUserData.getEmail(), createUserData.getUsername());
 
         if (existingUser.isPresent()) {
-            throw new ValidationException("User already exists with same email");
+            throw new ValidationException("User already exists with same email/username");
         }
 
         User user = new User();
