@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @NoArgsConstructor
@@ -17,6 +18,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String username;
     private String firstName;
     private String lastName;
 
@@ -25,4 +27,7 @@ public class User {
 
     @JsonIgnore
     private String password;
+
+    private int accountId;
+    private Date dateJoined;
 }
