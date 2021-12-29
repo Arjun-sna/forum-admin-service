@@ -1,13 +1,13 @@
 package com.learn.admin.service;
 
+import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.Account;
 import com.learn.admin.model.Role;
+import com.learn.admin.model.User;
+import com.learn.admin.payload.CreateUserData;
 import com.learn.admin.payload.UserData;
 import com.learn.admin.payload.UserOrder;
 import com.learn.admin.payload.UserSort;
-import com.learn.admin.exception.ValidationException;
-import com.learn.admin.model.User;
-import com.learn.admin.payload.CreateUserData;
 import com.learn.admin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +27,12 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired @Lazy
+    @Autowired
+    @Lazy
     private AccountService accountService;
 
-    @Autowired @Lazy
+    @Autowired
+    @Lazy
     private RoleService roleService;
 
     public Page<User> getAllUser(int page, int limit, UserSort userSort, UserOrder userOrder) {

@@ -19,7 +19,7 @@ public class RoleService {
     public Role createRole(CreateRoleData createRoleData, int accountId) {
         Optional<Role> existingRole = roleRepository.getRoleByNameAndAccountId(createRoleData.getName(), accountId);
 
-        if(existingRole.isPresent()) {
+        if (existingRole.isPresent()) {
             throw new ValidationException("Role already exists with same name");
         }
 

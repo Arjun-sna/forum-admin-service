@@ -7,5 +7,6 @@ import java.util.Optional;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
     Optional<Role> getRoleByNameAndAccountId(String name, int accountId);
+
     Optional<Role> getRoleByIdAndAccountId(int id, int accountId);
 }

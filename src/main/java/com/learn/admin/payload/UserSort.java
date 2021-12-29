@@ -9,17 +9,15 @@ public enum UserSort {
     EMAIL("email");
 
     private static final UserSort[] VALUES;
+
     static {
         VALUES = values();
     }
 
     private final String fieldName;
+
     UserSort(String fieldName) {
         this.fieldName = fieldName;
-    }
-
-    public String value() {
-        return this.fieldName;
     }
 
     public static UserSort of(String fieldName) {
@@ -27,5 +25,9 @@ public enum UserSort {
                 .filter(value -> value.fieldName.equalsIgnoreCase(fieldName))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("No matching constant for [" + fieldName + "]"));
+    }
+
+    public String value() {
+        return this.fieldName;
     }
 }

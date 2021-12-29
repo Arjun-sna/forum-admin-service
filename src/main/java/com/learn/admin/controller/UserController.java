@@ -2,7 +2,6 @@ package com.learn.admin.controller;
 
 import com.learn.admin.config.security.filter.CanCreateUser;
 import com.learn.admin.exception.ValidationException;
-import com.learn.admin.model.Role;
 import com.learn.admin.model.User;
 import com.learn.admin.payload.CreateUserData;
 import com.learn.admin.payload.UserOrder;
@@ -30,8 +29,8 @@ public class UserController {
     @GetMapping("/users")
     @CanCreateUser
     public Page<User> getUser(
-            @RequestParam(defaultValue = "0",required = false) Integer page,
-            @RequestParam(defaultValue = "10",required = false) Integer limit,
+            @RequestParam(defaultValue = "0", required = false) Integer page,
+            @RequestParam(defaultValue = "10", required = false) Integer limit,
             @RequestParam(defaultValue = "firstName", required = false) UserSort sort,
             @RequestParam(defaultValue = "asc", required = false) UserOrder order
     ) {

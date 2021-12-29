@@ -15,19 +15,17 @@ public enum Permission {
     CAN_DELETE_ROLE("delete_role"),
     CAN_EDIT_ROLE("edit_role");
 
-    private final String permission;
     private static final Permission[] VALUES;
+
     static {
         VALUES = values();
     }
 
+    private final String permission;
+
 
     Permission(String permission) {
         this.permission = permission;
-    }
-
-    public String value() {
-        return this.permission;
     }
 
     public static Permission of(String permission) {
@@ -35,5 +33,9 @@ public enum Permission {
                 .filter(value -> value.permission.equalsIgnoreCase(permission))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("No matching constant for [" + permission + "]"));
+    }
+
+    public String value() {
+        return this.permission;
     }
 }

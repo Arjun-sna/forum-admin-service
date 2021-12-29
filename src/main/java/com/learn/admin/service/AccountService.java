@@ -20,10 +20,12 @@ import java.util.Optional;
 public class AccountService {
     private final AccountRepository accountRepository;
 
-    @Autowired @Lazy
+    @Autowired
+    @Lazy
     private UserService userService;
 
-    @Autowired @Lazy
+    @Autowired
+    @Lazy
     private RoleService roleService;
 
     @Transactional

@@ -6,12 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 public class AuthUser implements UserDetails {
@@ -27,17 +24,12 @@ public class AuthUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        ArrayList<Authority> authorities = new ArrayList<>();
         String userPermissions = this.user.getRole().getPermissions();
-//        Stream.of(userPermissions).spliterator()
         return Pattern.compile(",")
                 .splitAsStream(userPermissions)
                 .map(Permission::of)
                 .map(Authority::of)
                 .collect(Collectors.toList());
-//        authorities.add(Authority.of(Permission.CAN_CREATE_USER));
-//        authorities.add(Authority.of(Permission.CAN_EDIT_USER));
-//        return authorities;
     }
 
     @Override
