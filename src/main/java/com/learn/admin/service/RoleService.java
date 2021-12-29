@@ -25,6 +25,21 @@ public class RoleService {
         role.setName(createRoleData.getName());
         role.setAccountId(accountId);
         role.setCreateUser(createRoleData.isCreateUser());
+        role.setEditUser(createRoleData.isEditUser());
+        role.setArchiveUser(createRoleData.isArchiveUser());
+        role.setCreatePost(createRoleData.isCreatePost());
+        role.setEditPost(createRoleData.isEditPost());
+        role.setDeletePost(createRoleData.isDeletePost());
+        role.setHidePost(createRoleData.isHidePost());
+        role.setCreateTopic(createRoleData.isCreateTopic());
+        role.setEditTopic(createRoleData.isEditTopic());
+        role.setDeleteTopic(createRoleData.isDeleteTopic());
+        role.setHideTopic(createRoleData.isHideTopic());
+        role.setViewHidden(createRoleData.isViewHidden());
+        role.setCreateRole(createRoleData.isCreateRole());
+        role.setEditRole(createRoleData.isEditRole());
+        role.setDeleteRole(createRoleData.isDeleteRole());
+
         roleRepository.save(role);
 
         return role;

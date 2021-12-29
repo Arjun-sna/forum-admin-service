@@ -36,7 +36,20 @@ public class CreateRoleData {
         return CreateRoleData.builder()
                 .name("Admin")
                 .createUser(true)
+                .editUser(true)
+                .archiveUser(true)
+                .createPost(true)
+                .editPost(true)
+                .deletePost(true)
+                .hidePost(true)
+                .createTopic(true)
+                .editTopic(true)
+                .deleteTopic(true)
+                .hideTopic(true)
+                .viewHidden(true)
+                .createRole(true)
                 .editRole(true)
+                .deleteRole(true)
                 .build();
     }
 }
