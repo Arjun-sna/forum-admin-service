@@ -16,7 +16,7 @@ CREATE TABLE users (
   password VARCHAR(255) NOT NULL,
   account_id INTEGER NOT NULL,
   role_id INTEGER NOT NULL,
-  date_joined TIMESTAMP WITH TIME ZONE default (now() at time zone 'utc'),
+  created_at TIMESTAMP WITH TIME ZONE default (now() at time zone 'utc'),
   updated_at TIMESTAMP WITH TIME ZONE default (now() at time zone 'utc'),
   CONSTRAINT pk_users PRIMARY KEY (id)
 );

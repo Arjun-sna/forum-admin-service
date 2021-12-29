@@ -14,7 +14,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Table(name = "users")
-public class User {
+public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -29,7 +29,6 @@ public class User {
     private String password;
 
     private int accountId;
-    private Date dateJoined;
 
     @OneToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")
