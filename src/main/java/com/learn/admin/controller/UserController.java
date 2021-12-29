@@ -49,6 +49,6 @@ public class UserController {
     @PostMapping("/users")
     @CanCreateUser
     public User createUser(@Valid @RequestBody CreateUserData createUserData) {
-        return userService.createUser(createUserData, 1, new Role());
+        return userService.createUser(createUserData);
     }
 }
