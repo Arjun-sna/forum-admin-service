@@ -1,5 +1,6 @@
 package com.learn.admin.service;
 
+import com.learn.admin.config.security.Permission;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.Role;
 import com.learn.admin.payload.CreateRoleData;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,25 +23,12 @@ public class RoleService {
             throw new ValidationException("Role already exists with same name");
         }
 
+        String permissions = createRoleData.getPermissions().stream()
+                .map(Permission::value).collect(Collectors.joining(","));
         Role role = new Role();
         role.setName(createRoleData.getName());
         role.setAccountId(accountId);
-        role.setCreateUser(createRoleData.isCreateUser());
-        role.setEditUser(createRoleData.isEditUser());
-        role.setArchiveUser(createRoleData.isArchiveUser());
-        role.setCreatePost(createRoleData.isCreatePost());
-        role.setEditPost(createRoleData.isEditPost());
-        role.setDeletePost(createRoleData.isDeletePost());
-        role.setHidePost(createRoleData.isHidePost());
-        role.setCreateTopic(createRoleData.isCreateTopic());
-        role.setEditTopic(createRoleData.isEditTopic());
-        role.setDeleteTopic(createRoleData.isDeleteTopic());
-        role.setHideTopic(createRoleData.isHideTopic());
-        role.setViewHidden(createRoleData.isViewHidden());
-        role.setCreateRole(createRoleData.isCreateRole());
-        role.setEditRole(createRoleData.isEditRole());
-        role.setDeleteRole(createRoleData.isDeleteRole());
-
+        role.setPermissions(permissions);
         roleRepository.save(role);
 
         return role;
