@@ -1,8 +1,6 @@
 package com.learn.admin.controller;
 
-import com.learn.admin.config.security.Permission;
 import com.learn.admin.config.security.filter.CanCreateUser;
-import com.learn.admin.config.security.filter.CanEditUser;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.Role;
 import com.learn.admin.model.User;
@@ -13,7 +11,6 @@ import com.learn.admin.service.AuthService;
 import com.learn.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,8 +28,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
-//    @PreAuthorize("hasAuthority(T(com.learn.admin.config.security.Permission).CAN_CREATE_USER.value())")
-    @CanEditUser
+    @CanCreateUser
     public Page<User> getUser(
             @RequestParam(defaultValue = "0",required = false) Integer page,
             @RequestParam(defaultValue = "10",required = false) Integer limit,
@@ -51,8 +47,8 @@ public class UserController {
     }
 
     @PostMapping("/users")
+    @CanCreateUser
     public User createUser(@Valid @RequestBody CreateUserData createUserData) {
-        // TODO: 28/12/21 remove hardcode value
         return userService.createUser(createUserData, 1, new Role());
     }
 }
