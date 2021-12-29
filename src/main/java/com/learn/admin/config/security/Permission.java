@@ -3,6 +3,7 @@ package com.learn.admin.config.security;
 import java.util.stream.Stream;
 
 public enum Permission {
+    CAN_VIEW_USER("view_user"),
     CAN_CREATE_USER("create_user"),
     CAN_ARCHIVE_USER("archive_user"),
     CAN_EDIT_USER("edit_user"),
