@@ -3,8 +3,10 @@ package com.learn.admin.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.Date;
 
 @Entity
@@ -23,7 +25,6 @@ public class Account {
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private User owner;
 
-    private Date createdAt;
-
-
+    @CreatedDate
+    private Instant createdAt = Instant.now();
 }
