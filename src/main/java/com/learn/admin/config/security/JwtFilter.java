@@ -42,7 +42,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 .map(AuthUser::new)
                 .map(authUser -> {
                     UsernamePasswordAuthenticationToken authentication =
-                            new UsernamePasswordAuthenticationToken(authUser, null, null);
+                            new UsernamePasswordAuthenticationToken(authUser, null, authUser.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                     return authentication;
