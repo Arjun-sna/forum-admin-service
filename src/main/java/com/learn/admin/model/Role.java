@@ -18,24 +18,25 @@ public class Role extends Auditable {
 
     private String name;
     private int accountId;
+    private String permissions;
 
-    private boolean createUser;
-    private boolean editUser;
-    private boolean archiveUser;
-
-    private boolean createPost;
-    private boolean editPost;
-    private boolean deletePost;
-    private boolean hidePost;
-
-    private boolean createTopic;
-    private boolean editTopic;
-    private boolean deleteTopic;
-    private boolean hideTopic;
-
-    private boolean viewHidden;
-
-    private boolean createRole;
-    private boolean editRole;
-    private boolean deleteRole;
+//    private boolean createUser;
+//    private boolean editUser;
+//    private boolean archiveUser;
+//
+//    private boolean createPost;
+//    private boolean editPost;
+//    private boolean deletePost;
+//    private boolean hidePost;
+//
+//    private boolean createTopic;
+//    private boolean editTopic;
+//    private boolean deleteTopic;
+//    private boolean hideTopic;
+//
+//    private boolean viewHidden;
+//
+//    private boolean createRole;
+//    private boolean editRole;
+//    private boolean deleteRole;
 }
