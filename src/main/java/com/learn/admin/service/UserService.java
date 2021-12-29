@@ -50,11 +50,10 @@ public class UserService {
                 getRole(createUserData.getRoleId(), createUserData.getAccountId())
                 .orElseThrow(() -> new ValidationException("Couldn't find the role"));
 
-        return createUser(createUserData, account.getId(), role);
+        return createUser(createUserData, account, role);
     }
 
-    public User createUser(UserData createUserData, int accountId, Role role) {
-        accountService.getAccountById(accountId);
+    public User createUser(UserData createUserData, Account account, Role role) {
         Optional<User> existingUser = userRepository.findByEmailOrUsername(
                 createUserData.getEmail(), createUserData.getUsername());
 
@@ -63,7 +62,7 @@ public class UserService {
         }
 
         User user = new User();
-        user.setAccountId(accountId);
+        user.setAccountId(account.getId());
         user.setRole(role);
         user.setUsername(createUserData.getUsername());
         user.setFirstName(createUserData.getFirstName());
