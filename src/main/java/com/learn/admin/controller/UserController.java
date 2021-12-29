@@ -1,6 +1,7 @@
 package com.learn.admin.controller;
 
 import com.learn.admin.config.security.filter.CanCreateUser;
+import com.learn.admin.config.security.filter.CanViewUser;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.User;
 import com.learn.admin.payload.CreateUserData;
@@ -27,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    @CanCreateUser
+    @CanViewUser
     public Page<User> getUser(
             @RequestParam(defaultValue = "0", required = false) Integer page,
             @RequestParam(defaultValue = "10", required = false) Integer limit,
@@ -38,6 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
+    @CanViewUser
     public User getUserById(
             @PathVariable Integer id
     ) {
