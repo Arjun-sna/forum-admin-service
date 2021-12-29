@@ -18,6 +18,10 @@ public class AuthUser implements UserDetails {
         return this.user.getId();
     }
 
+    public int getAccountId() {
+        return this.user.getAccountId();
+    }
+
     public String getEmail() {
         return this.user.getEmail();
     }
