@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-public class CreateAccountData extends CreateUserData {
+public class CreateAccountData extends UserData {
     @Size(min = 3, max = 20)
     private String accountName;
 }

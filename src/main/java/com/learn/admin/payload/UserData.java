@@ -7,7 +7,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
-public class UserData {
+public abstract class UserData {
     @NotBlank
     @Size(min = 3, max = 100)
     private String username;
