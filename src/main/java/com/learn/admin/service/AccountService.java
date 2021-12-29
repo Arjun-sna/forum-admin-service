@@ -8,6 +8,8 @@ import com.learn.admin.payload.CreateAccountData;
 import com.learn.admin.payload.CreateRoleData;
 import com.learn.admin.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,9 +18,13 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AccountService {
-    private final UserService userService;
-    private final RoleService roleService;
     private final AccountRepository accountRepository;
+
+    @Autowired @Lazy
+    private UserService userService;
+
+    @Autowired @Lazy
+    private RoleService roleService;
 
     @Transactional
     public Account createAccount(CreateAccountData createAccountData) {
@@ -39,5 +45,9 @@ public class AccountService {
         accountRepository.save(account);
 
         return account;
+    }
+
+    public Optional<Account> getAccountById(int accountId) {
+        return accountRepository.findById(accountId);
     }
 }

@@ -33,4 +33,8 @@ public class RoleService {
 
         return role;
     }
+
+    public Optional<Role> getRole(int roleId, int accountId) {
+        return roleRepository.getRoleByIdAndAccountId(roleId, accountId);
+    }
 }
