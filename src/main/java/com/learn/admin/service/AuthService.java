@@ -22,6 +22,10 @@ public class AuthService {
         return getAuthenticationPrincipal().getId();
     }
 
+    public Integer getLoggedInUserAccountId() {
+        return getAuthenticationPrincipal().getAccountId();
+    }
+
     public String getLoggedInUserEmail() {
         return getAuthenticationPrincipal().getEmail();
     }

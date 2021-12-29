@@ -42,7 +42,7 @@ public class AccountService {
         CreateRoleData adminRoleData = CreateRoleData.createAdminRole();
         Role role = roleService.createRole(adminRoleData, account.getId());
 
-        User accountOwner = userService.createUser(createAccountData, account, role);
+        User accountOwner = userService.createUser(account.getId(), createAccountData, role);
         account.setOwner(accountOwner);
         accountRepository.save(account);
 

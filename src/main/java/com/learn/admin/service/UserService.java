@@ -26,10 +26,7 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    @Lazy
-    private AccountService accountService;
+    private final AuthService authService;
 
     @Autowired
     @Lazy
@@ -39,21 +36,18 @@ public class UserService {
         Sort sortConfig = Sort.by(userOrder == UserOrder.ASC
                 ? Sort.Order.asc(userSort.value()) : Sort.Order.desc(userSort.value()));
         Pageable pageRequest = PageRequest.of(page, limit, sortConfig);
-        return userRepository.findAll(pageRequest);
+        return userRepository.findAllByAccountId(authService.getLoggedInUserAccountId(), pageRequest);
     }
 
     public User createUser(CreateUserData createUserData) {
-        Account account = accountService
-                .getAccountById(createUserData.getAccountId())
-                .orElseThrow(() -> new ValidationException("Couldn't find the account"));
         Role role = roleService.
-                getRole(createUserData.getRoleId(), createUserData.getAccountId())
+                getRole(createUserData.getRoleId(), authService.getLoggedInUserAccountId())
                 .orElseThrow(() -> new ValidationException("Couldn't find the role"));
 
-        return createUser(createUserData, account, role);
+        return createUser(authService.getLoggedInUserAccountId(), createUserData, role);
     }
 
-    public User createUser(UserData createUserData, Account account, Role role) {
+    public User createUser(int accountId, UserData createUserData, Role role) {
         Optional<User> existingUser = userRepository.findByEmailOrUsername(
                 createUserData.getEmail(), createUserData.getUsername());
 
@@ -62,7 +56,7 @@ public class UserService {
         }
 
         User user = new User();
-        user.setAccountId(account.getId());
+        user.setAccountId(accountId);
         user.setRole(role);
         user.setUsername(createUserData.getUsername());
         user.setFirstName(createUserData.getFirstName());
@@ -73,10 +67,11 @@ public class UserService {
     }
 
     public Optional<User> getUserByEmail(String email) {
+
         return userRepository.findByEmail(email);
     }
 
     public Optional<User> getUserById(int id) {
-        return userRepository.findById(id);
+        return userRepository.findByIdAndAccountId(id, authService.getLoggedInUserAccountId());
     }
 }
