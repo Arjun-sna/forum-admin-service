@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SignUpDto extends CreateUserDto {
+public class SignUpDto extends UserDto {
     @Positive(message = "Invalid account id")
     private int accountId;
 }

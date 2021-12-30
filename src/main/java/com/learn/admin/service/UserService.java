@@ -2,6 +2,7 @@ package com.learn.admin.service;
 
 import com.learn.admin.dto.*;
 import com.learn.admin.exception.ValidationException;
+import com.learn.admin.model.Account;
 import com.learn.admin.model.Role;
 import com.learn.admin.model.User;
 import com.learn.admin.repository.UserRepository;
@@ -40,11 +41,11 @@ public class UserService {
     }
 
     public User createUser(SignUpDto signUpData) {
-        Role role = roleService.
-                getRole(createUserData.getRoleId(), authService.getLoggedInUserAccountId())
-                .orElseThrow(() -> new ValidationException("Couldn't find the role"));
+        Account account = accountService.
+                getAccountById(signUpData.getAccountId())
+                .orElseThrow(() -> new ValidationException("Couldn't find the account"));
 
-        return createUser(authService.getLoggedInUserAccountId(), createUserData, role);
+        return createUser(account.getId(), signUpData, account.getDefaultRole());
     }
 
     public User createUser(CreateUserDto createUserData) {
