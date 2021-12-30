@@ -1,9 +1,12 @@
 package com.learn.admin.controller;
 
 import com.learn.admin.config.security.JwtUtil;
+import com.learn.admin.dto.SignUpDto;
 import com.learn.admin.model.AuthUser;
 import com.learn.admin.dto.JwtDto;
 import com.learn.admin.dto.SignInDto;
+import com.learn.admin.model.User;
+import com.learn.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +22,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthenticationManager authenticationManager;
+    private final UserService userService;
     private final JwtUtil jwtUtil;
 
     @PostMapping("/sign_in")
@@ -34,5 +38,10 @@ public class AuthController {
         String token = jwtUtil.generateAccessToken((AuthUser) authentication.getPrincipal());
 
         return JwtDto.of(token);
+    }
+
+    @PostMapping("sign_up")
+    public User signUp(@Valid @RequestBody SignUpDto signUpDto) {
+        return userService.createUser()
     }
 }

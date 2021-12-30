@@ -1,12 +1,9 @@
 package com.learn.admin.service;
 
+import com.learn.admin.dto.*;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.Role;
 import com.learn.admin.model.User;
-import com.learn.admin.dto.CreateUserDto;
-import com.learn.admin.dto.UserDto;
-import com.learn.admin.dto.UserOrder;
-import com.learn.admin.dto.UserSort;
 import com.learn.admin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +26,10 @@ public class UserService {
 
     @Autowired
     @Lazy
+    private AccountService accountService;
+
+    @Autowired
+    @Lazy
     private RoleService roleService;
 
     public Page<User> getAllUser(int page, int limit, UserSort userSort, UserOrder userOrder) {
@@ -36,6 +37,14 @@ public class UserService {
                 ? Sort.Order.asc(userSort.value()) : Sort.Order.desc(userSort.value()));
         Pageable pageRequest = PageRequest.of(page, limit, sortConfig);
         return userRepository.findAllByAccountId(authService.getLoggedInUserAccountId(), pageRequest);
+    }
+
+    public User createUser(SignUpDto signUpData) {
+        Role role = roleService.
+                getRole(createUserData.getRoleId(), authService.getLoggedInUserAccountId())
+                .orElseThrow(() -> new ValidationException("Couldn't find the role"));
+
+        return createUser(authService.getLoggedInUserAccountId(), createUserData, role);
     }
 
     public User createUser(CreateUserDto createUserData) {
