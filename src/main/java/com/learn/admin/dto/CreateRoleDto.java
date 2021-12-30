@@ -20,10 +20,22 @@ public class CreateRoleDto {
     private ArrayList<Permission> permissions;
 
     public static CreateRoleDto createAdminRole() {
-        ArrayList<Permission> adminPermission = new ArrayList<>(Arrays.asList(Permission.values()));
+        ArrayList<Permission> adminPermissions = new ArrayList<>(Arrays.asList(Permission.values()));
         return CreateRoleDto.builder()
                 .name("Admin")
-                .permissions(adminPermission)
+                .permissions(adminPermissions)
                 .build();
     }
+
+    public static CreateRoleDto createMemberRole() {
+        ArrayList<Permission> memberPermissions = new ArrayList<>();
+        memberPermissions.add(Permission.HAS_POST_ACCESS);
+        memberPermissions.add(Permission.HAS_TOPIC_ACCESS);
+        memberPermissions.add(Permission.CAN_VIEW_USER);
+        return CreateRoleDto.builder()
+                .name("Member")
+                .permissions(memberPermissions)
+                .build();
+    }
+
 }
