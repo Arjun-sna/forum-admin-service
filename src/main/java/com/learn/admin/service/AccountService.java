@@ -39,10 +39,11 @@ public class AccountService {
         account.setName(createAccountData.getAccountName());
         accountRepository.save(account);
 
-        CreateRoleDto adminRoleData = CreateRoleDto.createAdminRole();
-        Role role = roleService.createRole(adminRoleData, account.getId());
+        Role adminRole = roleService.createRole(CreateRoleDto.createAdminRole(), account.getId());
+        Role memberRole = roleService.createRole(CreateRoleDto.createMemberRole(), account.getId());
+        User accountOwner = userService.createUser(account.getId(), createAccountData, adminRole);
 
-        User accountOwner = userService.createUser(account.getId(), createAccountData, role);
+        account.setDefaultRole(memberRole);
         account.setOwner(accountOwner);
         accountRepository.save(account);
 
