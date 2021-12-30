@@ -42,6 +42,6 @@ public class AuthController {
 
     @PostMapping("sign_up")
     public User signUp(@Valid @RequestBody SignUpDto signUpDto) {
-        return userService.createUser()
+        return userService.createUser(signUpDto);
     }
 }
