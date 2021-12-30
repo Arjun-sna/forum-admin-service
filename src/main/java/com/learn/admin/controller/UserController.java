@@ -4,9 +4,9 @@ import com.learn.admin.config.security.filter.CanCreateUser;
 import com.learn.admin.config.security.filter.CanViewUser;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.User;
-import com.learn.admin.payload.CreateUserData;
-import com.learn.admin.payload.UserOrder;
-import com.learn.admin.payload.UserSort;
+import com.learn.admin.dto.CreateUserDto;
+import com.learn.admin.dto.UserOrder;
+import com.learn.admin.dto.UserSort;
 import com.learn.admin.service.AuthService;
 import com.learn.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +49,7 @@ public class UserController {
 
     @PostMapping("/users")
     @CanCreateUser
-    public User createUser(@Valid @RequestBody CreateUserData createUserData) {
+    public User createUser(@Valid @RequestBody CreateUserDto createUserData) {
         return userService.createUser(createUserData);
     }
 }

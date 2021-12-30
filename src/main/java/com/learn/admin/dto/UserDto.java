@@ -1,4 +1,4 @@
-package com.learn.admin.payload;
+package com.learn.admin.dto;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
-public abstract class UserData {
+public abstract class UserDto {
     @NotBlank
     @Size(min = 3, max = 100)
     private String username;

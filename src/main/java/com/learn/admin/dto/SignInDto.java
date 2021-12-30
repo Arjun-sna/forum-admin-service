@@ -1,4 +1,4 @@
-package com.learn.admin.payload;
+package com.learn.admin.dto;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
 @Data
-public class SignInData {
+public class SignInDto {
     @Email
     private String email;
 

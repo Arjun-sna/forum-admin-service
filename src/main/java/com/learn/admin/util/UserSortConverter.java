@@ -1,6 +1,6 @@
 package com.learn.admin.util;
 
-import com.learn.admin.payload.UserSort;
+import com.learn.admin.dto.UserSort;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 

@@ -1,4 +1,4 @@
-package com.learn.admin.payload;
+package com.learn.admin.dto;
 
 public enum UserOrder {
     ASC,

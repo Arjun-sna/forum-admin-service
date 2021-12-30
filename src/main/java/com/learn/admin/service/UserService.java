@@ -3,10 +3,10 @@ package com.learn.admin.service;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.Role;
 import com.learn.admin.model.User;
-import com.learn.admin.payload.CreateUserData;
-import com.learn.admin.payload.UserData;
-import com.learn.admin.payload.UserOrder;
-import com.learn.admin.payload.UserSort;
+import com.learn.admin.dto.CreateUserDto;
+import com.learn.admin.dto.UserDto;
+import com.learn.admin.dto.UserOrder;
+import com.learn.admin.dto.UserSort;
 import com.learn.admin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class UserService {
         return userRepository.findAllByAccountId(authService.getLoggedInUserAccountId(), pageRequest);
     }
 
-    public User createUser(CreateUserData createUserData) {
+    public User createUser(CreateUserDto createUserData) {
         Role role = roleService.
                 getRole(createUserData.getRoleId(), authService.getLoggedInUserAccountId())
                 .orElseThrow(() -> new ValidationException("Couldn't find the role"));
@@ -46,9 +46,9 @@ public class UserService {
         return createUser(authService.getLoggedInUserAccountId(), createUserData, role);
     }
 
-    public User createUser(int accountId, UserData createUserData, Role role) {
+    public User createUser(int accountId, UserDto createUserDto, Role role) {
         Optional<User> existingUser = userRepository.findByEmailOrUsername(
-                createUserData.getEmail(), createUserData.getUsername());
+                createUserDto.getEmail(), createUserDto.getUsername());
 
         if (existingUser.isPresent()) {
             throw new ValidationException("User already exists with same email/username");
@@ -57,11 +57,11 @@ public class UserService {
         User user = new User();
         user.setAccountId(accountId);
         user.setRole(role);
-        user.setUsername(createUserData.getUsername());
-        user.setFirstName(createUserData.getFirstName());
-        user.setLastName(createUserData.getLastName());
-        user.setEmail(createUserData.getEmail());
-        user.setPassword(passwordEncoder.encode(createUserData.getPassword()));
+        user.setUsername(createUserDto.getUsername());
+        user.setFirstName(createUserDto.getFirstName());
+        user.setLastName(createUserDto.getLastName());
+        user.setEmail(createUserDto.getEmail());
+        user.setPassword(passwordEncoder.encode(createUserDto.getPassword()));
         return userRepository.save(user);
     }
 

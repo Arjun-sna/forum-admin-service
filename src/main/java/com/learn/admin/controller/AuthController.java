@@ -2,8 +2,8 @@ package com.learn.admin.controller;
 
 import com.learn.admin.config.security.JwtUtil;
 import com.learn.admin.model.AuthUser;
-import com.learn.admin.payload.JwtResponse;
-import com.learn.admin.payload.SignInData;
+import com.learn.admin.dto.JwtDto;
+import com.learn.admin.dto.SignInDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,17 +22,17 @@ public class AuthController {
     private final JwtUtil jwtUtil;
 
     @PostMapping("/sign_in")
-    public JwtResponse signIn(@Valid @RequestBody SignInData signInData) {
+    public JwtDto signIn(@Valid @RequestBody SignInDto signInDto) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        signInData.getEmail(),
-                        signInData.getPassword()
+                        signInDto.getEmail(),
+                        signInDto.getPassword()
                 )
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtUtil.generateAccessToken((AuthUser) authentication.getPrincipal());
 
-        return JwtResponse.of(token);
+        return JwtDto.of(token);
     }
 }
