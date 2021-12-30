@@ -22,4 +22,8 @@ public class Account extends Auditable {
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private User owner;
 
+    @OneToOne
+    @JoinColumn(name = "default_role_id", referencedColumnName = "id")
+    private Role defaultRole;
+
 }
