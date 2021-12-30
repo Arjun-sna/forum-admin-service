@@ -9,7 +9,7 @@ spring:
 
   datasource:
     url: "jdbc:postgresql://localhost:5432/base_user_admin_app"
-    username: "a0s0eqs"
+    username: "postgres"
     password: "password"
 
 security:

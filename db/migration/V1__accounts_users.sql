@@ -25,7 +25,7 @@ ALTER TABLE users ADD CONSTRAINT uc_users_email UNIQUE (email);
 ALTER TABLE users ADD CONSTRAINT uc_users_username UNIQUE (username);
 ALTER TABLE users ADD CONSTRAINT FK_USERS_ON_ACCOUNT FOREIGN KEY (account_id) REFERENCES accounts (id);
 
-ALTER TABLE accounts ADD CONSTRAINT uc_accounts_display_name UNIQUE (display_name);
+ALTER TABLE accounts ADD CONSTRAINT uc_accounts_name UNIQUE (name);
 ALTER TABLE accounts ADD CONSTRAINT FK_ACCOUNTS_ON_OWNER FOREIGN KEY (owner_id) REFERENCES users (id);
 
 
