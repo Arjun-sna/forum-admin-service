@@ -1,4 +1,4 @@
-package com.learn.admin.payload;
+package com.learn.admin.dto;
 
 import com.learn.admin.config.security.Permission;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 @Data
 @Builder
-public class CreateRoleData {
+public class CreateRoleDto {
     @Size(min = 3, max = 20)
     private String name;
 
@@ -19,9 +19,9 @@ public class CreateRoleData {
     @Size(min = 1)
     private ArrayList<Permission> permissions;
 
-    public static CreateRoleData createAdminRole() {
+    public static CreateRoleDto createAdminRole() {
         ArrayList<Permission> adminPermission = new ArrayList<>(Arrays.asList(Permission.values()));
-        return CreateRoleData.builder()
+        return CreateRoleDto.builder()
                 .name("Admin")
                 .permissions(adminPermission)
                 .build();

@@ -1,10 +1,10 @@
-package com.learn.admin.payload;
+package com.learn.admin.dto;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor(staticName = "of")
-public class JwtResponse {
+public class JwtDto {
     private final String jwtToken;
 }
