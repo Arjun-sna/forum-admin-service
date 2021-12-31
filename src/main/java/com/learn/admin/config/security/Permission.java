@@ -1,5 +1,7 @@
 package com.learn.admin.config.security;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.stream.Stream;
 
 public enum Permission {
@@ -29,6 +31,7 @@ public enum Permission {
         this.permission = permission;
     }
 
+    @JsonCreator
     public static Permission of(String permission) {
         return Stream.of(VALUES)
                 .filter(value -> value.permission.equalsIgnoreCase(permission))
