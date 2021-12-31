@@ -6,8 +6,10 @@ import com.learn.admin.model.Role;
 import com.learn.admin.dto.CreateRoleDto;
 import com.learn.admin.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RoleService {
     private final RoleRepository roleRepository;
+    private final AuthService authService;
 
     public Role createRole(CreateRoleDto createRoleDto, int accountId) {
         Optional<Role> existingRole = roleRepository.getRoleByNameAndAccountId(createRoleDto.getName(), accountId);
@@ -36,5 +39,9 @@ public class RoleService {
 
     public Optional<Role> getRole(int roleId, int accountId) {
         return roleRepository.getRoleByIdAndAccountId(roleId, accountId);
+    }
+
+    public List<Role> getAllRolesInUserAccount() {
+        return roleRepository.findAllRoleByAccountId(authService.getLoggedInUserAccountId(), Sort.by("name"));
     }
 }
