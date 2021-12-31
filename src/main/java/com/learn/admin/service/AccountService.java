@@ -5,7 +5,7 @@ import com.learn.admin.model.Account;
 import com.learn.admin.model.Role;
 import com.learn.admin.model.User;
 import com.learn.admin.dto.CreateAccountDto;
-import com.learn.admin.dto.CreateRoleDto;
+import com.learn.admin.dto.RoleDto;
 import com.learn.admin.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +39,8 @@ public class AccountService {
         account.setName(createAccountData.getAccountName());
         accountRepository.save(account);
 
-        Role adminRole = roleService.createRole(CreateRoleDto.createAdminRole(), account.getId());
-        Role memberRole = roleService.createRole(CreateRoleDto.createMemberRole(), account.getId());
+        Role adminRole = roleService.createRole(RoleDto.createAdminRole(), account.getId());
+        Role memberRole = roleService.createRole(RoleDto.createMemberRole(), account.getId());
         User accountOwner = userService.createUser(account.getId(), createAccountData, adminRole);
 
         account.setDefaultRole(memberRole);
