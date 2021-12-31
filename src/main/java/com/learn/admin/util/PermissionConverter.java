@@ -1,16 +1,16 @@
 package com.learn.admin.util;
 
-import com.learn.admin.dto.UserSort;
+import com.learn.admin.config.security.Permission;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 
-public class UserSortConverter implements Converter<String, UserSort> {
+public class PermissionConverter implements Converter<String, Permission> {
     @Override
-    public UserSort convert(@NonNull String source) {
-        try {
-            return UserSort.of(source);
-        } catch (IllegalArgumentException ex) {
-            return UserSort.FIRSTNAME;
-        }
+    public Permission convert(@NonNull String source) {
+//        try {
+        return Permission.of(source);
+//        } catch (IllegalArgumentException ex) {
+//            throw new Va
+//        }
     }
 }

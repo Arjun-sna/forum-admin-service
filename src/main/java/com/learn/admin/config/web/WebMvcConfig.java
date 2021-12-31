@@ -1,5 +1,6 @@
 package com.learn.admin.config.web;
 
+import com.learn.admin.util.PermissionConverter;
 import com.learn.admin.util.UserOrderConverter;
 import com.learn.admin.util.UserSortConverter;
 import org.springframework.context.annotation.Configuration;
@@ -12,5 +13,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new UserSortConverter());
         registry.addConverter(new UserOrderConverter());
+        registry.addConverter(new PermissionConverter());
     }
 }
