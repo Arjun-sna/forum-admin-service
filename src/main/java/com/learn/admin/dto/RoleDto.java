@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 @Data
 @Builder
-public class CreateRoleDto {
+public class RoleDto {
     @Size(min = 3, max = 20)
     private String name;
 
@@ -19,20 +19,20 @@ public class CreateRoleDto {
     @Size(min = 1)
     private ArrayList<Permission> permissions;
 
-    public static CreateRoleDto createAdminRole() {
+    public static RoleDto createAdminRole() {
         ArrayList<Permission> adminPermissions = new ArrayList<>(Arrays.asList(Permission.values()));
-        return CreateRoleDto.builder()
+        return RoleDto.builder()
                 .name("Admin")
                 .permissions(adminPermissions)
                 .build();
     }
 
-    public static CreateRoleDto createMemberRole() {
+    public static RoleDto createMemberRole() {
         ArrayList<Permission> memberPermissions = new ArrayList<>();
         memberPermissions.add(Permission.HAS_POST_ACCESS);
         memberPermissions.add(Permission.HAS_TOPIC_ACCESS);
         memberPermissions.add(Permission.CAN_VIEW_USER);
-        return CreateRoleDto.builder()
+        return RoleDto.builder()
                 .name("Member")
                 .permissions(memberPermissions)
                 .build();
