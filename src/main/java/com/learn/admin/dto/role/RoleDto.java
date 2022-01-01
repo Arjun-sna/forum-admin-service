@@ -1,4 +1,4 @@
-package com.learn.admin.dto;
+package com.learn.admin.dto.role;
 
 import com.learn.admin.config.security.Permission;
 import lombok.Builder;

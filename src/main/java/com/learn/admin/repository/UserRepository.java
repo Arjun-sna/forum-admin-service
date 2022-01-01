@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByEmailOrUsername(String email, String username);
 
-    Optional<UserView> findByIdAndAccountId(int userId, int accountId);
+    <T> Optional<T> findByIdAndAccountId(int userId, int accountId, Class<T> type);
 
-    Page<UserBasicView> findAllByAccountId(int accountId, Pageable pageable);
+    Page<UserView> findAllByAccountId(int accountId, Pageable pageable);
 }

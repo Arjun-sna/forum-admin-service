@@ -26,7 +26,15 @@ public class User extends Auditable {
     @JsonIgnore
     private String password;
 
+    @Column(name = "account_id", insertable = false, updatable = false)
     private int accountId;
+
+    @OneToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    private Account account;
+
+    @Column(name = "role_id", insertable = false, updatable = false)
+    private int roleId;
 
     @OneToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")

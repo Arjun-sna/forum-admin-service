@@ -1,2 +1,5 @@
-package com.learn.admin.dto.role;public interface RoleView {
+package com.learn.admin.dto.role;
+
+public interface RoleView extends RoleBasicView {
+    String getPermissions();
 }

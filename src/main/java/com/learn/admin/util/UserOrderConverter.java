@@ -1,6 +1,6 @@
 package com.learn.admin.util;
 
-import com.learn.admin.dto.UserOrder;
+import com.learn.admin.dto.user.UserOrder;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 

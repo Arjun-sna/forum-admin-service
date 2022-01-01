@@ -1,11 +1,10 @@
-package com.learn.admin.dto;
+package com.learn.admin.dto.auth;
 
+import com.learn.admin.dto.user.UserDto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

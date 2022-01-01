@@ -1,6 +1,6 @@
 package com.learn.admin.controller;
 
-import com.learn.admin.dto.CreateAccountDto;
+import com.learn.admin.dto.account.CreateAccountDto;
 import com.learn.admin.model.Account;
 import com.learn.admin.service.AccountService;
 import lombok.RequiredArgsConstructor;

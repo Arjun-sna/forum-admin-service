@@ -1,4 +1,4 @@
-package com.learn.admin.dto;
+package com.learn.admin.dto.auth;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
