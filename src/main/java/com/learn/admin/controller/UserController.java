@@ -2,13 +2,9 @@ package com.learn.admin.controller;
 
 import com.learn.admin.config.security.filter.CanCreateUser;
 import com.learn.admin.config.security.filter.CanViewUser;
-import com.learn.admin.dto.user.UserCompleteView;
-import com.learn.admin.dto.user.UserView;
+import com.learn.admin.dto.user.*;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.User;
-import com.learn.admin.dto.user.CreateUserDto;
-import com.learn.admin.dto.user.UserOrder;
-import com.learn.admin.dto.user.UserSort;
 import com.learn.admin.service.AuthService;
 import com.learn.admin.service.UserService;
 import lombok.RequiredArgsConstructor;

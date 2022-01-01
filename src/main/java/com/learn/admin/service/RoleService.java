@@ -1,9 +1,9 @@
 package com.learn.admin.service;
 
 import com.learn.admin.config.security.Permission;
+import com.learn.admin.dto.role.RoleDto;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.Role;
-import com.learn.admin.dto.role.RoleDto;
 import com.learn.admin.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;

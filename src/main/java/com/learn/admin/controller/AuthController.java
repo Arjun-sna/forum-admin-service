@@ -1,10 +1,10 @@
 package com.learn.admin.controller;
 
 import com.learn.admin.config.security.JwtUtil;
-import com.learn.admin.dto.auth.SignUpDto;
-import com.learn.admin.model.AuthUser;
 import com.learn.admin.dto.auth.JwtDto;
 import com.learn.admin.dto.auth.SignInDto;
+import com.learn.admin.dto.auth.SignUpDto;
+import com.learn.admin.model.AuthUser;
 import com.learn.admin.model.User;
 import com.learn.admin.service.UserService;
 import lombok.RequiredArgsConstructor;

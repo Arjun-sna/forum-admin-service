@@ -1,6 +1,5 @@
 package com.learn.admin.repository;
 
-import com.learn.admin.dto.user.UserBasicView;
 import com.learn.admin.dto.user.UserView;
 import com.learn.admin.model.User;
 import org.springframework.data.domain.Page;
