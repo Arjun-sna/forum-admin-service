@@ -42,4 +42,9 @@ public class RoleController {
         return roleService.getRole(roleId, accountId)
                 .orElseThrow(() -> new ValidationException("Role not found"));
     }
+
+    @DeleteMapping("/{roleId}")
+    public void deleteRole(@PathVariable Integer roleId) {
+        roleService.deleteRole(roleId, authService.getLoggedInUserAccountId());
+    }
 }
