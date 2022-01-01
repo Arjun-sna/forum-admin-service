@@ -7,6 +7,7 @@ import org.springframework.lang.NonNull;
 public class PermissionConverter implements Converter<String, Permission> {
     @Override
     public Permission convert(@NonNull String source) {
+        // TODO: 01/01/22 fix this
 //        try {
         return Permission.of(source);
 //        } catch (IllegalArgumentException ex) {
