@@ -2,6 +2,8 @@ package com.learn.admin.controller;
 
 import com.learn.admin.config.security.filter.CanCreateUser;
 import com.learn.admin.config.security.filter.CanViewUser;
+import com.learn.admin.dto.user.UserBasicView;
+import com.learn.admin.dto.user.UserView;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.User;
 import com.learn.admin.dto.CreateUserDto;
@@ -23,13 +25,13 @@ public class UserController {
     private final AuthService authService;
 
     @GetMapping("/me")
-    public Optional<User> getUserProfile() {
+    public Optional<UserView> getUserProfile() {
         return userService.getUserById(authService.getLoggedInUserId());
     }
 
     @GetMapping("/users")
     @CanViewUser
-    public Page<User> getUser(
+    public Page<UserBasicView> getUser(
             @RequestParam(defaultValue = "0", required = false) Integer page,
             @RequestParam(defaultValue = "10", required = false) Integer limit,
             @RequestParam(defaultValue = "firstName", required = false) UserSort sort,
@@ -40,7 +42,7 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     @CanViewUser
-    public User getUserById(
+    public UserView getUserById(
             @PathVariable Integer id
     ) {
         return userService.getUserById(id)

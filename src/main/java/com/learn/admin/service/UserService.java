@@ -1,6 +1,8 @@
 package com.learn.admin.service;
 
 import com.learn.admin.dto.*;
+import com.learn.admin.dto.user.UserBasicView;
+import com.learn.admin.dto.user.UserView;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.Account;
 import com.learn.admin.model.Role;
@@ -33,7 +35,7 @@ public class UserService {
     @Lazy
     private RoleService roleService;
 
-    public Page<User> getAllUser(int page, int limit, UserSort userSort, UserOrder userOrder) {
+    public Page<UserBasicView> getAllUser(int page, int limit, UserSort userSort, UserOrder userOrder) {
         Sort sortConfig = Sort.by(userOrder == UserOrder.ASC
                 ? Sort.Order.asc(userSort.value()) : Sort.Order.desc(userSort.value()));
         Pageable pageRequest = PageRequest.of(page, limit, sortConfig);
@@ -80,7 +82,7 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public Optional<User> getUserById(int id) {
+    public Optional<UserView> getUserById(int id) {
         return userRepository.findByIdAndAccountId(id, authService.getLoggedInUserAccountId());
     }
 }
