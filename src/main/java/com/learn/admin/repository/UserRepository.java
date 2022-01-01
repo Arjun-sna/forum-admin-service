@@ -1,5 +1,6 @@
 package com.learn.admin.repository;
 
+import com.learn.admin.dto.user.UserBasicView;
 import com.learn.admin.dto.user.UserView;
 import com.learn.admin.model.User;
 import org.springframework.data.domain.Page;
@@ -16,4 +17,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     <T> Optional<T> findByIdAndAccountId(int userId, int accountId, Class<T> type);
 
     Page<UserView> findAllByAccountId(int accountId, Pageable pageable);
+
+    <T> Page<T> findAllByAccountIdAndRoleId(int accountId, int roleId, Pageable pageable, Class<T> type);
 }

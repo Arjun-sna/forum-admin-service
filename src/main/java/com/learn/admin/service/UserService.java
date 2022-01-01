@@ -34,6 +34,7 @@ public class UserService {
     @Lazy
     private RoleService roleService;
 
+    // TODO: 01/01/22 move account id to param
     public Page<UserView> getAllUser(int page, int limit, UserSort userSort, UserOrder userOrder) {
         Sort sortConfig = Sort.by(userOrder == UserOrder.ASC
                 ? Sort.Order.asc(userSort.value()) : Sort.Order.desc(userSort.value()));
@@ -77,7 +78,6 @@ public class UserService {
     }
 
     public Optional<User> getUserByEmail(String email) {
-
         return userRepository.findByEmail(email);
     }
 
@@ -87,5 +87,10 @@ public class UserService {
 
     public Optional<UserCompleteView> getCompleteUserById(int id) {
         return userRepository.findByIdAndAccountId(id, authService.getLoggedInUserAccountId(), UserCompleteView.class);
+    }
+
+    public Page<UserBasicView> getUsersByRole(int roleId, int accountId, int page, int limit) {
+        return userRepository.findAllByAccountIdAndRoleId(
+                accountId, roleId, PageRequest.of(page, limit), UserBasicView.class);
     }
 }
