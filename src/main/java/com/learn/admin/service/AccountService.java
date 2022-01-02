@@ -1,4 +1,4 @@
-package com.learn.admin.services;
+package com.learn.admin.service;
 
 import com.learn.admin.dto.account.CreateAccountDto;
 import com.learn.admin.model.Account;

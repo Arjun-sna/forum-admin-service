@@ -6,7 +6,7 @@ import com.learn.admin.dto.auth.SignInDto;
 import com.learn.admin.dto.auth.SignUpDto;
 import com.learn.admin.model.AuthUser;
 import com.learn.admin.model.User;
-import com.learn.admin.services.UserService;
+import com.learn.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

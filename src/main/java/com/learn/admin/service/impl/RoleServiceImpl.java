@@ -1,4 +1,4 @@
-package com.learn.admin.services.impl;
+package com.learn.admin.service.impl;
 
 import com.learn.admin.config.security.Permission;
 import com.learn.admin.dto.role.RoleDto;
@@ -6,8 +6,8 @@ import com.learn.admin.dto.user.UserBasicView;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.Role;
 import com.learn.admin.repository.RoleRepository;
-import com.learn.admin.services.RoleService;
-import com.learn.admin.services.UserService;
+import com.learn.admin.service.RoleService;
+import com.learn.admin.service.UserService;
 import com.learn.admin.util.Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

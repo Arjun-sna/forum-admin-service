@@ -1,13 +1,12 @@
-package com.learn.admin.services.impl;
+package com.learn.admin.service.impl;
 
 import com.learn.admin.exception.AuthContextException;
 import com.learn.admin.model.AuthUser;
 import com.learn.admin.repository.UserRepository;
-import com.learn.admin.services.AuthService;
+import com.learn.admin.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 

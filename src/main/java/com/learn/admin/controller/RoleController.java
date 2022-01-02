@@ -3,8 +3,8 @@ package com.learn.admin.controller;
 import com.learn.admin.dto.role.RoleDto;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.Role;
-import com.learn.admin.services.AuthService;
-import com.learn.admin.services.RoleService;
+import com.learn.admin.service.AuthService;
+import com.learn.admin.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
