@@ -1,5 +1,6 @@
 package com.learn.admin.controller;
 
+import com.learn.admin.dto.account.AccountBasicView;
 import com.learn.admin.dto.account.CreateAccountDto;
 import com.learn.admin.model.Account;
 import com.learn.admin.service.AccountService;
@@ -16,7 +17,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping("/account")
-    public Account createAccount(@Valid @RequestBody CreateAccountDto createAccountData) {
+    public AccountBasicView createAccount(@Valid @RequestBody CreateAccountDto createAccountData) {
         return accountService.createAccount(createAccountData);
     }
 }

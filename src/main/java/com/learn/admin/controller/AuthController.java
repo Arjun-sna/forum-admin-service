@@ -4,8 +4,9 @@ import com.learn.admin.config.security.JwtUtil;
 import com.learn.admin.dto.auth.JwtDto;
 import com.learn.admin.dto.auth.SignInDto;
 import com.learn.admin.dto.auth.SignUpDto;
+import com.learn.admin.dto.user.NewUserDto;
+import com.learn.admin.dto.user.UserBasicView;
 import com.learn.admin.model.AuthUser;
-import com.learn.admin.model.User;
 import com.learn.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,7 +42,7 @@ public class AuthController {
     }
 
     @PostMapping("sign_up")
-    public User signUp(@Valid @RequestBody SignUpDto signUpDto) {
+    public UserBasicView signUp(@Valid @RequestBody SignUpDto signUpDto) {
         return userService.createUser(signUpDto);
     }
 }
