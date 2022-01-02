@@ -7,5 +7,6 @@ import java.util.Optional;
 
 public interface AccountService {
     Account createAccount(CreateAccountDto createAccountData);
+
     Optional<Account> getAccountById(int accountId);
 }
