@@ -6,7 +6,7 @@ import com.learn.admin.dto.user.*;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.User;
 import com.learn.admin.service.AuthService;
-import com.learn.admin.service.UserService;
+import com.learn.admin.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;

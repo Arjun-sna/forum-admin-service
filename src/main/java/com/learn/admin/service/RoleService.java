@@ -6,6 +6,7 @@ import com.learn.admin.dto.user.UserBasicView;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.Role;
 import com.learn.admin.repository.RoleRepository;
+import com.learn.admin.services.UserService;
 import com.learn.admin.util.Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
