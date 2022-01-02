@@ -1,5 +1,6 @@
 package com.learn.admin.service.impl;
 
+import com.learn.admin.dto.account.AccountView;
 import com.learn.admin.dto.auth.SignUpDto;
 import com.learn.admin.dto.user.*;
 import com.learn.admin.exception.ValidationException;
@@ -47,11 +48,15 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserBasicView createUser(SignUpDto signUpData) {
-        Account account = accountService.
+        AccountView accountView = accountService.
                 getAccountById(signUpData.getAccountId())
                 .orElseThrow(() -> new ValidationException("Couldn't find the account"));
 
-        return createUser(signUpData, account, account.getDefaultRole());
+        return createUser(
+                signUpData,
+                Account.instantOf(accountView.getId()),
+                Role.instantOf(accountView.getDefaultRole().getId())
+        );
     }
 
     public UserBasicView createUser(CreateUserDto createUserData) {

@@ -8,5 +8,5 @@ import java.util.Optional;
 public interface AccountRepository extends JpaRepository<Account, Integer> {
     <T> Optional<T> findByName(String name, Class<T> type);
 
-    <T> Optional<T> findById(String name, Class<T> type);
+    <T> Optional<T> findById(int name, Class<T> type);
 }

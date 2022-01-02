@@ -26,4 +26,9 @@ public class Account extends Auditable {
     @JoinColumn(name = "default_role_id", referencedColumnName = "id")
     private Role defaultRole;
 
+    public static Account instantOf(int id) {
+        Account account = new Account();
+        account.setId(id);
+        return account;
+    }
 }

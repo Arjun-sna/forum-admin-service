@@ -1,6 +1,7 @@
 package com.learn.admin.service.impl;
 
 import com.learn.admin.dto.account.AccountBasicView;
+import com.learn.admin.dto.account.AccountView;
 import com.learn.admin.dto.account.CreateAccountDto;
 import com.learn.admin.dto.account.NewAccountDto;
 import com.learn.admin.dto.role.RoleDto;
@@ -58,7 +59,7 @@ public class AccountServiceImpl implements AccountService {
         return NewAccountDto.of(account);
     }
 
-    public Optional<Account> getAccountById(int accountId) {
-        return accountRepository.findById(accountId);
+    public Optional<AccountView> getAccountById(int accountId) {
+        return accountRepository.findById(accountId, AccountView.class);
     }
 }
