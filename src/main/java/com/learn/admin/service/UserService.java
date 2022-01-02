@@ -2,6 +2,7 @@ package com.learn.admin.service;
 
 import com.learn.admin.dto.auth.SignUpDto;
 import com.learn.admin.dto.user.*;
+import com.learn.admin.model.Account;
 import com.learn.admin.model.Role;
 import com.learn.admin.model.User;
 import org.springframework.data.domain.Page;
@@ -11,11 +12,11 @@ import java.util.Optional;
 public interface UserService {
     Page<UserView> getAllUser(int page, int limit, UserSort userSort, UserOrder userOrder);
 
-    User createUser(SignUpDto signUpData);
+    UserBasicView createUser(SignUpDto signUpData);
 
-    User createUser(CreateUserDto createUserData);
+    UserBasicView createUser(CreateUserDto createUserData);
 
-    User createUser(int accountId, UserDto createUserDto, Role role);
+    UserBasicView createUser(UserDto createUserDto, Account account, Role role);
 
     Optional<User> getUserByEmail(String email);
 

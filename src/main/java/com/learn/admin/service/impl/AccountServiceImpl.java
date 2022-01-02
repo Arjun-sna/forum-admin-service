@@ -1,7 +1,11 @@
 package com.learn.admin.service.impl;
 
+import com.learn.admin.dto.account.AccountBasicView;
 import com.learn.admin.dto.account.CreateAccountDto;
+import com.learn.admin.dto.account.NewAccountDto;
 import com.learn.admin.dto.role.RoleDto;
+import com.learn.admin.dto.user.NewUserDto;
+import com.learn.admin.dto.user.UserBasicView;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.Account;
 import com.learn.admin.model.Role;
@@ -32,8 +36,9 @@ public class AccountServiceImpl implements AccountService {
     private RoleService roleService;
 
     @Transactional
-    public Account createAccount(CreateAccountDto createAccountData) {
-        Optional<Account> existingAccount = accountRepository.findByName(createAccountData.getAccountName());
+    public AccountBasicView createAccount(CreateAccountDto createAccountData) {
+        Optional<AccountBasicView> existingAccount = accountRepository.findByName(
+                createAccountData.getAccountName(), AccountBasicView.class);
         if (existingAccount.isPresent()) {
             throw new ValidationException("Account already exists with same name");
         }
@@ -44,13 +49,13 @@ public class AccountServiceImpl implements AccountService {
 
         Role adminRole = roleService.createRole(RoleDto.createAdminRole(), account.getId());
         Role memberRole = roleService.createRole(RoleDto.createMemberRole(), account.getId());
-        User accountOwner = userService.createUser(account.getId(), createAccountData, adminRole);
+        UserBasicView newUser = userService.createUser(createAccountData, account, adminRole);
 
         account.setDefaultRole(memberRole);
-        account.setOwner(accountOwner);
+        account.setOwner(User.instantOf(newUser.getId()));
         accountRepository.save(account);
 
-        return account;
+        return NewAccountDto.of(account);
     }
 
     public Optional<Account> getAccountById(int accountId) {

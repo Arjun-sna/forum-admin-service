@@ -46,23 +46,23 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAllByAccountId(authService.getLoggedInUserAccountId(), pageRequest);
     }
 
-    public User createUser(SignUpDto signUpData) {
+    public UserBasicView createUser(SignUpDto signUpData) {
         Account account = accountService.
                 getAccountById(signUpData.getAccountId())
                 .orElseThrow(() -> new ValidationException("Couldn't find the account"));
 
-        return createUser(account.getId(), signUpData, account.getDefaultRole());
+        return createUser( signUpData,account, account.getDefaultRole());
     }
 
-    public User createUser(CreateUserDto createUserData) {
+    public UserBasicView createUser(CreateUserDto createUserData) {
         Role role = roleService.
                 getRole(createUserData.getRoleId(), authService.getLoggedInUserAccountId())
                 .orElseThrow(() -> new ValidationException("Couldn't find the role"));
 
-        return createUser(authService.getLoggedInUserAccountId(), createUserData, role);
+        return createUser(createUserData,authService.getLoggedInUserAccount(), role);
     }
 
-    public User createUser(int accountId, UserDto createUserDto, Role role) {
+    public UserBasicView createUser(UserDto createUserDto, Account account, Role role) {
         Optional<User> existingUser = userRepository.findByEmailOrUsername(
                 createUserDto.getEmail(), createUserDto.getUsername());
 
@@ -71,14 +71,16 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = new User();
-        user.setAccountId(accountId);
+        user.setAccount(account);
         user.setRole(role);
         user.setUsername(createUserDto.getUsername());
         user.setFirstName(createUserDto.getFirstName());
         user.setLastName(createUserDto.getLastName());
         user.setEmail(createUserDto.getEmail());
         user.setPassword(passwordEncoder.encode(createUserDto.getPassword()));
-        return userRepository.save(user);
+        userRepository.save(user);
+
+        return NewUserDto.of(user);
     }
 
     public Optional<User> getUserByEmail(String email) {

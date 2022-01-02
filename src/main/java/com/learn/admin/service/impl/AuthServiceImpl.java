@@ -1,6 +1,7 @@
 package com.learn.admin.service.impl;
 
 import com.learn.admin.exception.AuthContextException;
+import com.learn.admin.model.Account;
 import com.learn.admin.model.AuthUser;
 import com.learn.admin.repository.UserRepository;
 import com.learn.admin.service.AuthService;
@@ -32,6 +33,10 @@ public class AuthServiceImpl implements AuthService {
 
     public Integer getLoggedInUserAccountId() {
         return getAuthenticationPrincipal().getAccountId();
+    }
+
+    public Account getLoggedInUserAccount() {
+        return getAuthenticationPrincipal().getAccount();
     }
 
     public String getLoggedInUserEmail() {
