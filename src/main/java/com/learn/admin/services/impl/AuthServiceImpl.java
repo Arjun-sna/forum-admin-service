@@ -1,8 +1,9 @@
-package com.learn.admin.service;
+package com.learn.admin.services.impl;
 
 import com.learn.admin.exception.AuthContextException;
 import com.learn.admin.model.AuthUser;
 import com.learn.admin.repository.UserRepository;
+import com.learn.admin.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService implements UserDetailsService {
+public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
 
     public AuthUser getLoggedInUser() {
@@ -38,7 +39,6 @@ public class AuthService implements UserDetailsService {
         return getAuthenticationPrincipal().getEmail();
     }
 
-    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)
                 .map(AuthUser::new)
