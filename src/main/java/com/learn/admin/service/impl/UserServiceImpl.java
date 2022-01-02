@@ -39,12 +39,11 @@ public class UserServiceImpl implements UserService {
     @Lazy
     private RoleService roleService;
 
-    // TODO: 01/01/22 move account id to param
-    public Page<UserView> getAllUser(int page, int limit, UserSort userSort, UserOrder userOrder) {
+    public Page<UserView> getAllUser(int accountId, int page, int limit, UserSort userSort, UserOrder userOrder) {
         Sort sortConfig = Sort.by(userOrder == UserOrder.ASC
                 ? Sort.Order.asc(userSort.value()) : Sort.Order.desc(userSort.value()));
         Pageable pageRequest = PageRequest.of(page, limit, sortConfig);
-        return userRepository.findAllByAccountId(authService.getLoggedInUserAccountId(), pageRequest);
+        return userRepository.findAllByAccountId(accountId, pageRequest);
     }
 
     public UserBasicView createUser(SignUpDto signUpData) {

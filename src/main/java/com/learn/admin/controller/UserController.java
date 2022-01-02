@@ -32,7 +32,7 @@ public class UserController {
             @RequestParam(defaultValue = "firstName", required = false) UserSort sort,
             @RequestParam(defaultValue = "asc", required = false) UserOrder order
     ) {
-        return userService.getAllUser(page, limit, sort, order);
+        return userService.getAllUser(authService.getLoggedInUserAccountId(), page, limit, sort, order);
     }
 
     @GetMapping("/users/{id}")

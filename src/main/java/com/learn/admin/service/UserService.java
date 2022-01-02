@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import java.util.Optional;
 
 public interface UserService {
-    Page<UserView> getAllUser(int page, int limit, UserSort userSort, UserOrder userOrder);
+    Page<UserView> getAllUser(int accountId, int page, int limit, UserSort userSort, UserOrder userOrder);
 
     UserBasicView createUser(SignUpDto signUpData);
 
