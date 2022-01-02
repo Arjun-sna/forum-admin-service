@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
                 getAccountById(signUpData.getAccountId())
                 .orElseThrow(() -> new ValidationException("Couldn't find the account"));
 
-        return createUser( signUpData,account, account.getDefaultRole());
+        return createUser(signUpData, account, account.getDefaultRole());
     }
 
     public UserBasicView createUser(CreateUserDto createUserData) {
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
                 getRole(createUserData.getRoleId(), authService.getLoggedInUserAccountId())
                 .orElseThrow(() -> new ValidationException("Couldn't find the role"));
 
-        return createUser(createUserData,authService.getLoggedInUserAccount(), role);
+        return createUser(createUserData, authService.getLoggedInUserAccount(), role);
     }
 
     public UserBasicView createUser(UserDto createUserDto, Account account, Role role) {

@@ -8,7 +8,7 @@ import java.time.Instant;
 
 @Data
 @AllArgsConstructor
-public class NewUserDto implements UserBasicView{
+public class NewUserDto implements UserBasicView {
     private int id;
     private String firstName;
     private String lastName;

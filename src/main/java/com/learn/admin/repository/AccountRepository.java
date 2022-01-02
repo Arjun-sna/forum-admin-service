@@ -1,6 +1,5 @@
 package com.learn.admin.repository;
 
-import com.learn.admin.dto.account.AccountBasicView;
 import com.learn.admin.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 

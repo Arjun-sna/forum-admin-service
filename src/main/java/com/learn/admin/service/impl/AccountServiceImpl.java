@@ -4,7 +4,6 @@ import com.learn.admin.dto.account.AccountBasicView;
 import com.learn.admin.dto.account.CreateAccountDto;
 import com.learn.admin.dto.account.NewAccountDto;
 import com.learn.admin.dto.role.RoleDto;
-import com.learn.admin.dto.user.NewUserDto;
 import com.learn.admin.dto.user.UserBasicView;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.Account;

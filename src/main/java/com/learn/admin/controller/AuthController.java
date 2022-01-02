@@ -4,7 +4,6 @@ import com.learn.admin.config.security.JwtUtil;
 import com.learn.admin.dto.auth.JwtDto;
 import com.learn.admin.dto.auth.SignInDto;
 import com.learn.admin.dto.auth.SignUpDto;
-import com.learn.admin.dto.user.NewUserDto;
 import com.learn.admin.dto.user.UserBasicView;
 import com.learn.admin.model.AuthUser;
 import com.learn.admin.service.UserService;
