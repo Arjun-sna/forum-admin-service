@@ -1,6 +1,7 @@
 package com.learn.admin.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,6 +28,7 @@ public class User extends Auditable {
     private String password;
 
     @Column(name = "account_id", insertable = false, updatable = false)
+    @Setter(AccessLevel.NONE)
     private int accountId;
 
     @OneToOne
@@ -34,9 +36,16 @@ public class User extends Auditable {
     private Account account;
 
     @Column(name = "role_id", insertable = false, updatable = false)
+    @Setter(AccessLevel.NONE)
     private int roleId;
 
     @OneToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
+
+    public static User instantOf(int id) {
+        User user = new User();
+        user.setId(id);
+        return user;
+    }
 }
