@@ -55,10 +55,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserBasicView createUser(CreateUserDto createUserData) {
-        Role role = roleService.
-                getRole(createUserData.getRoleId(), authService.getLoggedInUserAccountId())
-                .orElseThrow(() -> new ValidationException("Couldn't find the role"));
-
+        Role role = roleService.validateRoleId(createUserData.getRoleId(), authService.getLoggedInUserAccountId());
         return createUser(createUserData, authService.getLoggedInUserAccount(), role);
     }
 

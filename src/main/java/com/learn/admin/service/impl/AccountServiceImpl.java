@@ -4,6 +4,7 @@ import com.learn.admin.dto.account.AccountBasicView;
 import com.learn.admin.dto.account.CreateAccountDto;
 import com.learn.admin.dto.account.NewAccountDto;
 import com.learn.admin.dto.role.RoleDto;
+import com.learn.admin.dto.role.RoleView;
 import com.learn.admin.dto.user.UserBasicView;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.Account;
@@ -46,11 +47,11 @@ public class AccountServiceImpl implements AccountService {
         account.setName(createAccountData.getAccountName());
         accountRepository.save(account);
 
-        Role adminRole = roleService.createRole(RoleDto.createAdminRole(), account.getId());
-        Role memberRole = roleService.createRole(RoleDto.createMemberRole(), account.getId());
-        UserBasicView newUser = userService.createUser(createAccountData, account, adminRole);
+        RoleView adminRole = roleService.createRole(RoleDto.createAdminRole(), account.getId());
+        RoleView memberRole = roleService.createRole(RoleDto.createMemberRole(), account.getId());
+        UserBasicView newUser = userService.createUser(createAccountData, account, Role.instantOf(adminRole.getId()));
 
-        account.setDefaultRole(memberRole);
+        account.setDefaultRole(Role.instantOf(memberRole.getId()));
         account.setOwner(User.instantOf(newUser.getId()));
         accountRepository.save(account);
 

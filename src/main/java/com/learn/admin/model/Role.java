@@ -19,4 +19,10 @@ public class Role extends Auditable {
     private String name;
     private int accountId;
     private String permissions;
+
+    public static Role instantOf(int id) {
+        Role role = new Role();
+        role.setId(id);
+        return role;
+    }
 }

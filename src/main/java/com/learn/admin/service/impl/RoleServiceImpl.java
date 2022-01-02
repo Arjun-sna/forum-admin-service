@@ -1,7 +1,9 @@
 package com.learn.admin.service.impl;
 
 import com.learn.admin.config.security.Permission;
+import com.learn.admin.dto.role.NewRoleDto;
 import com.learn.admin.dto.role.RoleDto;
+import com.learn.admin.dto.role.RoleView;
 import com.learn.admin.dto.user.UserBasicView;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.model.Role;
@@ -25,12 +27,8 @@ public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
     private final UserService userService;
 
-    public Role createRole(RoleDto createRoleDto, int accountId) {
-        Optional<Role> existingRole = roleRepository.getRoleByNameAndAccountId(createRoleDto.getName(), accountId);
-
-        if (existingRole.isPresent()) {
-            throw new ValidationException("Role already exists with same name");
-        }
+    public RoleView createRole(RoleDto createRoleDto, int accountId) {
+        validateRoleName(createRoleDto.getName(), accountId);
 
         Role role = new Role();
         role.setName(createRoleDto.getName());
@@ -38,41 +36,31 @@ public class RoleServiceImpl implements RoleService {
         role.setPermissions(constructPermissionsStringFromList(createRoleDto.getPermissions()));
         roleRepository.save(role);
 
-        return role;
+        return NewRoleDto.of(role);
     }
 
-    private String constructPermissionsStringFromList(ArrayList<Permission> permissions) {
-        return permissions
-                .stream()
-                .map(Permission::value)
-                .collect(Collectors.joining(","));
-    }
-
-    public Role updateRole(int roleId, int accountId, RoleDto roleDto) {
+    public RoleView updateRole(int roleId, int accountId, RoleDto roleDto) {
+        validateRoleName(roleDto.getName(), accountId);
         Role existingRole = validateAndGetRoleForModification(roleId, accountId);
 
         existingRole.setName(roleDto.getName());
         existingRole.setPermissions(constructPermissionsStringFromList(roleDto.getPermissions()));
 
         roleRepository.save(existingRole);
-        return existingRole;
+        return NewRoleDto.of(existingRole);
     }
 
-    private Role validateAndGetRoleForModification(int roleId, int accountId) {
-        Role existingRole = getRole(roleId, accountId)
-                .orElseThrow(() -> new ValidationException("Cannot find the role"));
 
-        if (existingRole.getName().equalsIgnoreCase(Constants.SYSTEM_GENERATED_ROLE)) {
-            throw new ValidationException("Cannot delete a system generate role");
-        }
-        return existingRole;
-    }
-
-    public Optional<Role> getRole(int roleId, int accountId) {
+    public Optional<RoleView> getRole(int roleId, int accountId) {
         return roleRepository.getRoleByIdAndAccountId(roleId, accountId);
     }
 
-    public List<Role> getAllRolesInAccount(int accountId) {
+    public Role validateRoleId(int roleId, int accountId) {
+        return roleRepository.getRoleInternalByIdAndAccountId(roleId, accountId)
+                .orElseThrow(() -> new ValidationException("Cannot find the role"));
+    }
+
+    public List<RoleView> getAllRolesInAccount(int accountId) {
         return roleRepository.findAllRoleByAccountId(accountId, Sort.by("name"));
     }
 
@@ -86,4 +74,30 @@ public class RoleServiceImpl implements RoleService {
 
         roleRepository.delete(existingRole);
     }
+
+    private String constructPermissionsStringFromList(ArrayList<Permission> permissions) {
+        return permissions
+                .stream()
+                .map(Permission::value)
+                .collect(Collectors.joining(","));
+    }
+
+    private void validateRoleName(String roleName, int accountId) {
+        Optional<RoleView> existingRole = roleRepository.getRoleByNameAndAccountId(roleName, accountId);
+
+        if (existingRole.isPresent()) {
+            throw new ValidationException("Role already exists with same name");
+        }
+    }
+
+    private Role validateAndGetRoleForModification(int roleId, int accountId) {
+        Role existingRole = validateRoleId(roleId, accountId);
+
+        if (existingRole.getName().equalsIgnoreCase(Constants.SYSTEM_GENERATED_ROLE)) {
+            throw new ValidationException("Cannot update/delete a system generate role");
+        }
+        return existingRole;
+    }
+
+
 }
