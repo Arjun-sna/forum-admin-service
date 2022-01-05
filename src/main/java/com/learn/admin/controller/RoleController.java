@@ -1,5 +1,7 @@
 package com.learn.admin.controller;
 
+import com.learn.admin.config.security.filter.CanEditRole;
+import com.learn.admin.dto.role.AssignMembersRequest;
 import com.learn.admin.dto.role.RoleDto;
 import com.learn.admin.dto.role.RoleView;
 import com.learn.admin.exception.ValidationException;
@@ -42,6 +44,12 @@ public class RoleController {
         int accountId = authService.getLoggedInUserAccountId();
         return roleService.getRole(roleId, accountId)
                 .orElseThrow(() -> new ValidationException("Role not found"));
+    }
+
+    @PatchMapping("/{roleId}/members")
+    @CanEditRole
+    public void assignMembers(@PathVariable int roleId, @Valid @RequestBody AssignMembersRequest assignMembersRequest) {
+        roleService.assignMembers(roleId, authService.getLoggedInUserAccount(), assignMembersRequest.getMemberIds());
     }
 
     @DeleteMapping("/{roleId}")

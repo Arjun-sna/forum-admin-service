@@ -2,8 +2,10 @@ package com.learn.admin.service;
 
 import com.learn.admin.dto.role.RoleDto;
 import com.learn.admin.dto.role.RoleView;
+import com.learn.admin.model.Account;
 import com.learn.admin.model.Role;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,4 +21,6 @@ public interface RoleService {
     List<RoleView> getAllRolesInAccount(int accountId);
 
     void deleteRole(int roleId, int accountId);
+
+    void assignMembers(int roleId, Account account, ArrayList<Integer> memberIds);
 }
