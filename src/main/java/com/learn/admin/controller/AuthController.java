@@ -1,6 +1,9 @@
 package com.learn.admin.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.learn.admin.config.security.JwtUtil;
+import com.learn.admin.config.security.token.Token;
+import com.learn.admin.config.security.token.TokenOperation;
 import com.learn.admin.dto.auth.JwtDto;
 import com.learn.admin.dto.auth.SignInDto;
 import com.learn.admin.dto.auth.SignUpDto;
@@ -26,7 +29,7 @@ public class AuthController {
     private final JwtUtil jwtUtil;
 
     @PostMapping("/sign_in")
-    public JwtDto signIn(@Valid @RequestBody SignInDto signInDto) {
+    public JwtDto signIn(@Valid @RequestBody SignInDto signInDto) throws JsonProcessingException {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         signInDto.getEmail(),
@@ -35,7 +38,9 @@ public class AuthController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtUtil.generateAccessToken((AuthUser) authentication.getPrincipal());
+        AuthUser authUser = (AuthUser) authentication.getPrincipal();
+        String token = jwtUtil.generateAccessToken(
+                Token.of(authUser.getEmail(), authUser.getUsername(), TokenOperation.AUTH));
 
         return JwtDto.of(token);
     }

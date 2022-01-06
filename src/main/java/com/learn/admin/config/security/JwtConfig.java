@@ -15,4 +15,7 @@ public class JwtConfig {
 
     @Value("${security.jwt.secret}")
     private String secret;
+
+    @Value("${security.jwt.issuer}")
+    private String issuer;
 }
