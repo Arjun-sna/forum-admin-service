@@ -1,6 +1,8 @@
 package com.learn.admin.config.security;
 
-import com.learn.admin.model.AuthUser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.learn.admin.config.security.token.Token;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,10 +15,14 @@ import java.util.Date;
 @Slf4j
 public class JwtUtil {
     private final JwtConfig jwtConfig;
+    private final ObjectMapper objectMapper;
 
-    public String generateAccessToken(AuthUser user) {
+    public String generateAccessToken(Token token) throws JsonProcessingException {
+        String payloadClaim = objectMapper.writeValueAsString(token);
         return Jwts.builder()
-                .setSubject(String.format("%s,%s", user.getId(), user.getEmail()))
+                .setSubject(token.getEmail())
+                .claim("token", payloadClaim)
+                .setIssuer(jwtConfig.getIssuer())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtConfig.getExpiration()))
                 .signWith(SignatureAlgorithm.HS512, jwtConfig.getSecret())
@@ -30,22 +36,9 @@ public class JwtUtil {
                 .getBody();
     }
 
-    public String getUserId(String token) {
-        Claims claims = getClaims(token);
-
-        return claims.getSubject().split(",")[0];
-    }
-
-    public String getUserEmail(String token) {
-        Claims claims = getClaims(token);
-
-        return claims.getSubject().split(",")[1];
-    }
-
-    public Date getExpirationDate(String token) {
-        Claims claims = getClaims(token);
-
-        return claims.getExpiration();
+    public Token getTokenClaim(String token) throws JsonProcessingException {
+        String claim = (String) getClaims(token).get("token");
+        return objectMapper.readValue(claim, Token.class);
     }
 
     public boolean validate(String token) {

@@ -75,6 +75,7 @@ public class RoleServiceImpl implements RoleService {
         roleRepository.delete(existingRole);
     }
 
+    // TODO: 05/01/22 use jackson in dto itself
     private String constructPermissionsStringFromList(ArrayList<Permission> permissions) {
         return permissions
                 .stream()
