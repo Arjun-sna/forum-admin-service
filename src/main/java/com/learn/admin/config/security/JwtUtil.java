@@ -14,14 +14,15 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Slf4j
 public class JwtUtil {
+    private static final String CUSTOM_CLAIM_KEY = "payload";
     private final JwtConfig jwtConfig;
-    private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public String generateAccessToken(Token token) throws JsonProcessingException {
         String payloadClaim = objectMapper.writeValueAsString(token);
         return Jwts.builder()
                 .setSubject(token.getEmail())
-                .claim("token", payloadClaim)
+                .claim(CUSTOM_CLAIM_KEY, payloadClaim)
                 .setIssuer(jwtConfig.getIssuer())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtConfig.getExpiration()))
@@ -29,15 +30,12 @@ public class JwtUtil {
                 .compact();
     }
 
-    private Claims getClaims(String token) {
-        return Jwts.parser()
+    public Token getTokenClaim(String token) throws JsonProcessingException {
+        String claim = (String) Jwts.parser()
                 .setSigningKey(jwtConfig.getSecret())
                 .parseClaimsJws(token)
-                .getBody();
-    }
-
-    public Token getTokenClaim(String token) throws JsonProcessingException {
-        String claim = (String) getClaims(token).get("token");
+                .getBody()
+                .get(CUSTOM_CLAIM_KEY);
         return objectMapper.readValue(claim, Token.class);
     }
 
