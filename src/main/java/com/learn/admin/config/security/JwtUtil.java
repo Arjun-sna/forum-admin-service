@@ -1,6 +1,8 @@
 package com.learn.admin.config.security;
 
-import com.learn.admin.model.AuthUser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.learn.admin.config.security.token.Token;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,40 +14,29 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Slf4j
 public class JwtUtil {
+    private static final String CUSTOM_CLAIM_KEY = "payload";
     private final JwtConfig jwtConfig;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public String generateAccessToken(AuthUser user) {
+    public String generateAccessToken(Token token) throws JsonProcessingException {
+        String payloadClaim = objectMapper.writeValueAsString(token);
         return Jwts.builder()
-                .setSubject(String.format("%s,%s", user.getId(), user.getEmail()))
+                .setSubject(token.getEmail())
+                .claim(CUSTOM_CLAIM_KEY, payloadClaim)
+                .setIssuer(jwtConfig.getIssuer())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtConfig.getExpiration()))
                 .signWith(SignatureAlgorithm.HS512, jwtConfig.getSecret())
                 .compact();
     }
 
-    private Claims getClaims(String token) {
-        return Jwts.parser()
+    public Token getTokenClaim(String token) throws JsonProcessingException {
+        String claim = (String) Jwts.parser()
                 .setSigningKey(jwtConfig.getSecret())
                 .parseClaimsJws(token)
-                .getBody();
-    }
-
-    public String getUserId(String token) {
-        Claims claims = getClaims(token);
-
-        return claims.getSubject().split(",")[0];
-    }
-
-    public String getUserEmail(String token) {
-        Claims claims = getClaims(token);
-
-        return claims.getSubject().split(",")[1];
-    }
-
-    public Date getExpirationDate(String token) {
-        Claims claims = getClaims(token);
-
-        return claims.getExpiration();
+                .getBody()
+                .get(CUSTOM_CLAIM_KEY);
+        return objectMapper.readValue(claim, Token.class);
     }
 
     public boolean validate(String token) {

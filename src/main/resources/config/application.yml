@@ -17,3 +17,4 @@ security:
     prefix: "Bearer "
     expiration: 604800000
     secret: ${JWT_SECRET}
+    issuer: http://localhost
