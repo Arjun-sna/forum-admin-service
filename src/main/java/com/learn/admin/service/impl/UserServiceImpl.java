@@ -47,6 +47,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserBasicView createUser(SignUpDto signUpData) {
+        // TODO: 04/01/22 move this to accountservice
         AccountView accountView = accountService.
                 getAccountById(signUpData.getAccountId())
                 .orElseThrow(() -> new ValidationException("Couldn't find the account"));
@@ -99,5 +100,18 @@ public class UserServiceImpl implements UserService {
     public Page<UserBasicView> getUsersByRole(int roleId, int accountId, int page, int limit) {
         return userRepository.findAllByAccountIdAndRoleId(
                 accountId, roleId, PageRequest.of(page, limit), UserBasicView.class);
+    }
+
+    private User validateAndGetUser(int userId, int accountId) {
+        Optional<User> existingUser = userRepository.findByIdAndAccountId(userId, accountId, User.class);
+
+        return existingUser.orElseThrow(() -> new ValidationException("User not found"));
+    }
+
+    @Override
+    public void changeRole(int userId, Account account, Role role) {
+        User user = validateAndGetUser(userId, account.getId());
+        user.setRole(role);
+        userRepository.save(user);
     }
 }

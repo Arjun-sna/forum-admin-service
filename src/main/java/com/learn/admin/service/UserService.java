@@ -25,4 +25,6 @@ public interface UserService {
     Optional<UserCompleteView> getCompleteUserById(int id);
 
     Page<UserBasicView> getUsersByRole(int roleId, int accountId, int page, int limit);
+
+    void changeRole(int userId, Account account, Role roleId);
 }

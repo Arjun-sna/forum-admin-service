@@ -6,6 +6,7 @@ import com.learn.admin.dto.role.RoleDto;
 import com.learn.admin.dto.role.RoleView;
 import com.learn.admin.dto.user.UserBasicView;
 import com.learn.admin.exception.ValidationException;
+import com.learn.admin.model.Account;
 import com.learn.admin.model.Role;
 import com.learn.admin.repository.RoleRepository;
 import com.learn.admin.service.RoleService;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +75,13 @@ public class RoleServiceImpl implements RoleService {
         }
 
         roleRepository.delete(existingRole);
+    }
+
+    @Transactional
+    public void assignMembers(int roleId, Account account, ArrayList<Integer> memberIds) {
+        Role existingRole = validateAndGetRoleForModification(roleId, account.getId());
+
+        memberIds.forEach(memberId -> userService.changeRole(memberId, account, existingRole));
     }
 
     // TODO: 05/01/22 use jackson in dto itself
