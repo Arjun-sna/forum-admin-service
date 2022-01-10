@@ -1,6 +1,7 @@
 package com.learn.admin.config.security;
 
 import com.learn.admin.config.security.token.Token;
+import com.learn.admin.config.security.token.TokenOperation;
 import com.learn.admin.model.AuthUser;
 import com.learn.admin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,11 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         Token token = jwtUtil.getTokenClaim(jwtToken);
+        if (token.getOperation() != TokenOperation.AUTH) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         UsernamePasswordAuthenticationToken authenticationToken = userRepository
                 .findByEmail(token.getEmail())
                 .map(AuthUser::new)
