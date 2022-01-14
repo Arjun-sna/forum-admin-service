@@ -1,5 +1,8 @@
 package com.learn.admin.service.impl;
 
+import com.learn.admin.config.security.JwtUtil;
+import com.learn.admin.config.security.token.Token;
+import com.learn.admin.config.security.token.TokenOperation;
 import com.learn.admin.dto.account.AccountView;
 import com.learn.admin.dto.auth.SignUpDto;
 import com.learn.admin.dto.user.*;
@@ -13,6 +16,7 @@ import com.learn.admin.service.AuthService;
 import com.learn.admin.service.RoleService;
 import com.learn.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
@@ -26,10 +30,12 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthService authService;
+    private final JwtUtil jwtUtil;
 
     @Autowired
     @Lazy
@@ -65,6 +71,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserBasicView createUser(UserDto createUserDto, Account account, Role role) {
+        // TODO: 14/01/22 replace with exists
         Optional<User> existingUser = userRepository.findByEmailOrUsername(
                 createUserDto.getEmail(), createUserDto.getUsername());
 
@@ -113,5 +120,14 @@ public class UserServiceImpl implements UserService {
         User user = validateAndGetUser(userId, account.getId());
         user.setRole(role);
         userRepository.save(user);
+    }
+
+    @Override
+    public void initiatePwReset(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ValidationException("User not found"));
+        String token = jwtUtil.generateAccessToken(
+                Token.of(user.getEmail(), user.getUsername(), TokenOperation.PASSWORD_RESET));
+        // TODO: 14/01/22 send token email
     }
 }

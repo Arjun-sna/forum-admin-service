@@ -5,6 +5,7 @@ import com.learn.admin.config.security.JwtUtil;
 import com.learn.admin.config.security.token.Token;
 import com.learn.admin.config.security.token.TokenOperation;
 import com.learn.admin.dto.auth.JwtDto;
+import com.learn.admin.dto.auth.PwResetDto;
 import com.learn.admin.dto.auth.SignInDto;
 import com.learn.admin.dto.auth.SignUpDto;
 import com.learn.admin.dto.user.UserBasicView;
@@ -29,7 +30,7 @@ public class AuthController {
     private final JwtUtil jwtUtil;
 
     @PostMapping("/sign_in")
-    public JwtDto signIn(@Valid @RequestBody SignInDto signInDto) throws JsonProcessingException {
+    public JwtDto signIn(@Valid @RequestBody SignInDto signInDto) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         signInDto.getEmail(),
@@ -50,8 +51,8 @@ public class AuthController {
         return userService.createUser(signUpDto);
     }
 
-    @PostMapping("reset-password")
-    public void resetPassword() {
-
+    @PostMapping("/forgot-password")
+    public void forgotPassword(@Valid @RequestBody PwResetDto pwResetDto) {
+        userService.initiatePwReset(pwResetDto.getEmail());
     }
 }
