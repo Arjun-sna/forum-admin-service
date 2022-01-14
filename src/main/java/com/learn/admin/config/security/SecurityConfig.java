@@ -2,7 +2,6 @@ package com.learn.admin.config.security;
 
 import com.learn.admin.config.security.filter.AuthTokenFilter;
 import com.learn.admin.config.security.filter.PwResetTokenFilter;
-import com.learn.admin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,9 +24,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserDetailsService userDetailsService;
     public static final String[] PUBLIC_URLS = {"/sign_in", "/sign_up", "/sign_up", "/health"};
     public static final String[] PROTECTED_URLS = {"/reset-password"};
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

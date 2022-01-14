@@ -52,6 +52,6 @@ public class AuthController {
 
     @PostMapping("reset-password")
     public void resetPassword() {
-        
+
     }
 }

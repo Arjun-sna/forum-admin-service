@@ -1,12 +1,9 @@
 package com.learn.admin.config.security.filter;
 
-import com.learn.admin.config.security.JwtUtil;
 import com.learn.admin.config.security.SecurityConfig;
 import com.learn.admin.config.security.token.Token;
 import com.learn.admin.config.security.token.TokenOperation;
-import com.learn.admin.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -20,7 +17,7 @@ import java.util.stream.Stream;
 public class AuthTokenFilter extends JwtFilter {
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {;
+    protected boolean shouldNotFilter(HttpServletRequest request) {
         String currentUrl = request.getRequestURI();
         return Stream
                 .concat(Arrays.stream(SecurityConfig.PROTECTED_URLS), Arrays.stream(SecurityConfig.PUBLIC_URLS))
