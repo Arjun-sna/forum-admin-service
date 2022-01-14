@@ -3,6 +3,7 @@ package com.learn.admin.config.security;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learn.admin.config.security.token.Token;
+import com.learn.admin.config.security.token.TokenOperation;
 import com.learn.admin.exception.InternalServerException;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
@@ -28,11 +29,24 @@ public class JwtUtil {
                     .claim(CUSTOM_CLAIM_KEY, payloadClaim)
                     .setIssuer(jwtConfig.getIssuer())
                     .setIssuedAt(new Date())
-                    .setExpiration(new Date(System.currentTimeMillis() + jwtConfig.getExpiration()))
+                    .setExpiration(new Date(System.currentTimeMillis() + getExpirationTime(token.getOperation())))
                     .signWith(SignatureAlgorithm.HS512, jwtConfig.getSecret())
                     .compact();
         } catch (JsonProcessingException e) {
             throw new InternalServerException(e.getMessage());
+        }
+    }
+
+    private int getExpirationTime(TokenOperation operation) {
+        switch (operation) {
+            case AUTH:
+                return jwtConfig.getAuthTokenExpiration();
+            case PASSWORD_RESET:
+                return jwtConfig.getPwResetTokenExpiration();
+            case ACCOUNT_ACTIVATION:
+                return jwtConfig.getAccountActivationTokenExpiration();
+            default:
+                return -1;
         }
     }
 
