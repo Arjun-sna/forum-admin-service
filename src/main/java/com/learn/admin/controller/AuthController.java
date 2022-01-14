@@ -1,15 +1,12 @@
 package com.learn.admin.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.learn.admin.config.security.JwtUtil;
 import com.learn.admin.config.security.token.Token;
 import com.learn.admin.config.security.token.TokenOperation;
-import com.learn.admin.dto.auth.JwtDto;
-import com.learn.admin.dto.auth.PwResetDto;
-import com.learn.admin.dto.auth.SignInDto;
-import com.learn.admin.dto.auth.SignUpDto;
+import com.learn.admin.dto.auth.*;
 import com.learn.admin.dto.user.UserBasicView;
 import com.learn.admin.model.AuthUser;
+import com.learn.admin.service.AuthService;
 import com.learn.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +24,7 @@ import javax.validation.Valid;
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
+    private final AuthService authService;
     private final JwtUtil jwtUtil;
 
     @PostMapping("/sign_in")
@@ -52,7 +50,13 @@ public class AuthController {
     }
 
     @PostMapping("/forgot-password")
-    public void forgotPassword(@Valid @RequestBody PwResetDto pwResetDto) {
-        userService.initiatePwReset(pwResetDto.getEmail());
+    public void forgotPassword(@Valid @RequestBody ForgotPwDto forgotPwDto) {
+        userService.initiatePwReset(forgotPwDto.getEmail());
+    }
+
+    @PostMapping("/reset-password")
+    public void resetPassword(@Valid @RequestBody ResetPwDto resetPwDto) {
+        AuthUser loggedInUser = authService.getLoggedInUser();
+        userService.resetPassword(loggedInUser.getId(), loggedInUser.getAccountId(), resetPwDto.getPassword());
     }
 }

@@ -29,4 +29,6 @@ public interface UserService {
     void changeRole(int userId, Account account, Role roleId);
 
     void initiatePwReset(String email);
+
+    void resetPassword(int userId, int accountId, String password);
 }

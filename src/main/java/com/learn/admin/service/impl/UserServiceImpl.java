@@ -23,6 +23,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -129,5 +130,13 @@ public class UserServiceImpl implements UserService {
         String token = jwtUtil.generateAccessToken(
                 Token.of(user.getEmail(), user.getUsername(), TokenOperation.PASSWORD_RESET));
         // TODO: 14/01/22 send token email
+        log.info(token);
+    }
+
+    @Override
+    public void resetPassword(int userId, int accountId, @NonNull String password) {
+        User user = this.validateAndGetUser(userId, accountId);
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
     }
 }
