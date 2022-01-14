@@ -1,7 +1,7 @@
 package com.learn.admin.controller;
 
-import com.learn.admin.config.security.filter.CanCreateUser;
-import com.learn.admin.config.security.filter.CanViewUser;
+import com.learn.admin.config.security.authorizations.CanCreateUser;
+import com.learn.admin.config.security.authorizations.CanViewUser;
 import com.learn.admin.dto.user.*;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.service.AuthService;

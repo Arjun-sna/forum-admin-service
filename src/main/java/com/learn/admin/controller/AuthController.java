@@ -49,4 +49,9 @@ public class AuthController {
     public UserBasicView signUp(@Valid @RequestBody SignUpDto signUpDto) {
         return userService.createUser(signUpDto);
     }
+
+    @PostMapping("reset-password")
+    public void resetPassword() {
+        
+    }
 }

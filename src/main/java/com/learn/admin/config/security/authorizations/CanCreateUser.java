@@ -1,4 +1,4 @@
-package com.learn.admin.config.security.filter;
+package com.learn.admin.config.security.authorizations;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("hasAuthority(T(com.learn.admin.config.security.Permission).CAN_EDIT_USER.value())")
-public @interface CanEditUser {
+@PreAuthorize("hasAuthority(T(com.learn.admin.config.security.Permission).CAN_CREATE_USER.value())")
+public @interface CanCreateUser {
 }

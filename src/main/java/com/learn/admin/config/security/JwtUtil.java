@@ -30,13 +30,18 @@ public class JwtUtil {
                 .compact();
     }
 
-    public Token getTokenClaim(String token) throws JsonProcessingException {
+    public Token getTokenClaim(String token) {
         String claim = (String) Jwts.parser()
                 .setSigningKey(jwtConfig.getSecret())
                 .parseClaimsJws(token)
                 .getBody()
                 .get(CUSTOM_CLAIM_KEY);
-        return objectMapper.readValue(claim, Token.class);
+        try {
+            return objectMapper.readValue(claim, Token.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public boolean validate(String token) {

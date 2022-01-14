@@ -1,11 +1,10 @@
 package com.learn.admin.controller;
 
-import com.learn.admin.config.security.filter.CanEditRole;
+import com.learn.admin.config.security.authorizations.CanEditRole;
 import com.learn.admin.dto.role.AssignMembersRequest;
 import com.learn.admin.dto.role.RoleDto;
 import com.learn.admin.dto.role.RoleView;
 import com.learn.admin.exception.ValidationException;
-import com.learn.admin.model.Role;
 import com.learn.admin.service.AuthService;
 import com.learn.admin.service.RoleService;
 import lombok.RequiredArgsConstructor;

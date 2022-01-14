@@ -1,10 +1,12 @@
-package com.learn.admin.config.security;
+package com.learn.admin.config.security.filter;
 
+import com.learn.admin.config.security.JwtUtil;
 import com.learn.admin.config.security.token.Token;
 import com.learn.admin.config.security.token.TokenOperation;
 import com.learn.admin.model.AuthUser;
 import com.learn.admin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,32 +21,35 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component
 @RequiredArgsConstructor
-public class JwtFilter extends OncePerRequestFilter {
+public abstract class JwtFilter extends OncePerRequestFilter {
+
+//    @Autowired
     private final JwtUtil jwtUtil;
+
+//    @Autowired
     private final UserRepository userRepository;
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        final String tokenHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (!StringUtils.hasLength(tokenHeader) || !tokenHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+//    @Override
+//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+//        final Token token = validateAndGetToken(request);
+//        if (token == null) {
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
+////        Token token = jwtUtil.getTokenClaim(jwtToken)
+//
+//        if (token.getOperation() != TokenOperation.AUTH) {
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
+//
+//        setSecurityContext(request, token);
+//
+//        filterChain.doFilter(request, response);
+//    }
 
-        final String jwtToken = tokenHeader.split(" ")[1].trim();
-        if (!jwtUtil.validate(jwtToken)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        Token token = jwtUtil.getTokenClaim(jwtToken);
-        if (token.getOperation() != TokenOperation.AUTH) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
+    protected void setSecurityContext(HttpServletRequest request, Token token) {
         UsernamePasswordAuthenticationToken authenticationToken = userRepository
                 .findByEmail(token.getEmail())
                 .map(AuthUser::new)
@@ -58,7 +63,19 @@ public class JwtFilter extends OncePerRequestFilter {
                 .orElse(null);
 
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+    }
 
-        filterChain.doFilter(request, response);
+    protected Token validateAndGetToken(HttpServletRequest request) {
+        final String tokenHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (!StringUtils.hasLength(tokenHeader) || !tokenHeader.startsWith("Bearer ")) {
+            return null;
+        }
+
+        final String jwtToken = tokenHeader.split(" ")[1].trim();
+        if (!jwtUtil.validate(jwtToken)) {
+            return null;
+        }
+
+        return jwtUtil.getTokenClaim(jwtToken);
     }
 }
