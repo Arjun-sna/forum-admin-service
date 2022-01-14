@@ -23,24 +23,24 @@ public class RoleController {
 
     @GetMapping
     public List<RoleView> getRoles() {
-        return roleService.getAllRolesInAccount(authService.getLoggedInUserAccountId());
+        return roleService.getAllRolesInAccount(authService.getLoggedInUser().getAccountId());
     }
 
     @PostMapping
     public RoleView addRole(@Valid @RequestBody RoleDto createRoleDto) {
-        int accountId = authService.getLoggedInUserAccountId();
+        int accountId = authService.getLoggedInUser().getAccountId();
         return roleService.createRole(createRoleDto, accountId);
     }
 
     @PatchMapping("/{roleId}")
     public RoleView updateRole(@PathVariable Integer roleId, @Valid @RequestBody RoleDto updateRoleDto) {
-        int accountId = authService.getLoggedInUserAccountId();
+        int accountId = authService.getLoggedInUser().getAccountId();
         return roleService.updateRole(roleId, accountId, updateRoleDto);
     }
 
     @GetMapping("/{roleId}")
     public RoleView getRole(@PathVariable Integer roleId) {
-        int accountId = authService.getLoggedInUserAccountId();
+        int accountId = authService.getLoggedInUser().getAccountId();
         return roleService.getRole(roleId, accountId)
                 .orElseThrow(() -> new ValidationException("Role not found"));
     }
@@ -48,11 +48,11 @@ public class RoleController {
     @PatchMapping("/{roleId}/members")
     @CanEditRole
     public void assignMembers(@PathVariable int roleId, @Valid @RequestBody AssignMembersRequest assignMembersRequest) {
-        roleService.assignMembers(roleId, authService.getLoggedInUserAccount(), assignMembersRequest.getMemberIds());
+        roleService.assignMembers(roleId, authService.getLoggedInUser().getAccount(), assignMembersRequest.getMemberIds());
     }
 
     @DeleteMapping("/{roleId}")
     public void deleteRole(@PathVariable Integer roleId) {
-        roleService.deleteRole(roleId, authService.getLoggedInUserAccountId());
+        roleService.deleteRole(roleId, authService.getLoggedInUser().getAccountId());
     }
 }

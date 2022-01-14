@@ -15,6 +15,8 @@ spring:
 security:
   jwt:
     prefix: "Bearer "
-    expiration: 604800000
+    auth_token_expiration: 604800000
+    pw_reset_token_expiration: 3600000
+    account_activation_token_expiration: 172800000
     secret: ${JWT_SECRET}
     issuer: http://localhost

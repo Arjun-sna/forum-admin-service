@@ -27,4 +27,8 @@ public interface UserService {
     Page<UserBasicView> getUsersByRole(int roleId, int accountId, int page, int limit);
 
     void changeRole(int userId, Account account, Role roleId);
+
+    void initiatePwReset(String email);
+
+    void resetPassword(int userId, int accountId, String password);
 }
