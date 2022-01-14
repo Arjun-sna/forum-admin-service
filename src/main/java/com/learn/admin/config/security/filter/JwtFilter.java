@@ -4,7 +4,7 @@ import com.learn.admin.config.security.JwtUtil;
 import com.learn.admin.config.security.token.Token;
 import com.learn.admin.model.AuthUser;
 import com.learn.admin.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,11 +14,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.http.HttpServletRequest;
 
-@RequiredArgsConstructor
 public abstract class JwtFilter extends OncePerRequestFilter {
+    @Autowired
+    private JwtUtil jwtUtil;
 
-    private final JwtUtil jwtUtil;
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     protected void setSecurityContext(HttpServletRequest request, Token token) {
         UsernamePasswordAuthenticationToken authenticationToken = userRepository

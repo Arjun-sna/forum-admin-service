@@ -18,9 +18,6 @@ import java.util.stream.Stream;
 
 @Slf4j
 public class AuthTokenFilter extends JwtFilter {
-    public AuthTokenFilter(JwtUtil jwtUtil, UserRepository userRepository) {
-        super(jwtUtil, userRepository);
-    }
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {;

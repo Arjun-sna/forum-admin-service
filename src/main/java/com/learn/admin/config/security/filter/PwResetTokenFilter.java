@@ -16,9 +16,6 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class PwResetTokenFilter extends JwtFilter {
-    public PwResetTokenFilter(JwtUtil jwtUtil, UserRepository userRepository) {
-        super(jwtUtil, userRepository);
-    }
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {

@@ -26,9 +26,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
-    private final JwtUtil jwtUtil;
-    private final UserRepository userRepository;
-
     public static final String[] PUBLIC_URLS = {"/sign_in", "/sign_up", "/sign_up", "/health"};
     public static final String[] PROTECTED_URLS = {"/reset-password"};
 
@@ -43,8 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(PUBLIC_URLS).permitAll()
                 .anyRequest().authenticated();
         http
-                .addFilterBefore(new AuthTokenFilter(jwtUtil, userRepository), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new PwResetTokenFilter(jwtUtil, userRepository), AuthTokenFilter.class);
+                .addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(pwResetTokenFilter(), AuthTokenFilter.class);
     }
 
     @Override
@@ -61,5 +58,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public AuthTokenFilter authTokenFilter() {
+        return new AuthTokenFilter();
+    }
+
+    @Bean
+    public PwResetTokenFilter pwResetTokenFilter() {
+        return new PwResetTokenFilter();
     }
 }
