@@ -3,12 +3,9 @@ package com.learn.admin.config.security;
 import com.learn.admin.config.security.filter.AuthTokenFilter;
 import com.learn.admin.config.security.filter.PwResetTokenFilter;
 import com.learn.admin.repository.UserRepository;
-import com.learn.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -29,12 +26,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
-//    private final AuthTokenFilter authTokenFilter;
-//    private final PwResetTokenFilter pwResetTokenFilter;
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
 
-    private static final String[] PUBLIC_URLS = {"/sign_in", "/sign_up", "/sign_up", "/health"};
+    public static final String[] PUBLIC_URLS = {"/sign_in", "/sign_up", "/sign_up", "/health"};
     public static final String[] PROTECTED_URLS = {"/reset-password"};
 
     @Override
@@ -48,15 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(PUBLIC_URLS).permitAll()
                 .anyRequest().authenticated();
         http
-                .addFilterBefore(new AuthTokenFilter(jwtUtil, userRepository), UsernamePasswordAuthenticationFilter.class);
-    }
-
-    @Bean
-    public FilterRegistrationBean<PwResetTokenFilter> registerPwResetTokenFilter() {
-        FilterRegistrationBean<PwResetTokenFilter> filterRegistrationBean = new FilterRegistrationBean<>();
-        filterRegistrationBean.setFilter(new PwResetTokenFilter(jwtUtil, userRepository));
-        filterRegistrationBean.addUrlPatterns("/reset-password");
-        return filterRegistrationBean;
+                .addFilterBefore(new AuthTokenFilter(jwtUtil, userRepository), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new PwResetTokenFilter(jwtUtil, userRepository), AuthTokenFilter.class);
     }
 
     @Override

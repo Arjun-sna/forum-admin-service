@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
-//@Component
 @Slf4j
 public class AuthTokenFilter extends JwtFilter {
     public AuthTokenFilter(JwtUtil jwtUtil, UserRepository userRepository) {
@@ -23,10 +23,11 @@ public class AuthTokenFilter extends JwtFilter {
     }
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
-        log.info("Filtering--------");
+    protected boolean shouldNotFilter(HttpServletRequest request) {;
         String currentUrl = request.getRequestURI();
-        return Arrays.stream(SecurityConfig.PROTECTED_URLS).anyMatch(currentUrl::equalsIgnoreCase);
+        return Stream
+                .concat(Arrays.stream(SecurityConfig.PROTECTED_URLS), Arrays.stream(SecurityConfig.PUBLIC_URLS))
+                .anyMatch(currentUrl::equalsIgnoreCase);
     }
 
     @Override
