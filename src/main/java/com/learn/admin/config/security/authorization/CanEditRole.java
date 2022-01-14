@@ -1,4 +1,4 @@
-package com.learn.admin.config.security.authorizations;
+package com.learn.admin.config.security.authorization;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 

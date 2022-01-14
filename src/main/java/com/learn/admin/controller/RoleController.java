@@ -1,6 +1,6 @@
 package com.learn.admin.controller;
 
-import com.learn.admin.config.security.authorizations.CanEditRole;
+import com.learn.admin.config.security.authorization.CanEditRole;
 import com.learn.admin.dto.role.AssignMembersRequest;
 import com.learn.admin.dto.role.RoleDto;
 import com.learn.admin.dto.role.RoleView;
