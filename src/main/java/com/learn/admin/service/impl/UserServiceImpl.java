@@ -67,8 +67,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserBasicView createUser(CreateUserDto createUserData) {
-        Role role = roleService.validateRoleId(createUserData.getRoleId(), authService.getLoggedInUserAccountId());
-        return createUser(createUserData, authService.getLoggedInUserAccount(), role);
+        Role role = roleService.validateRoleId(createUserData.getRoleId(), authService.getLoggedInUser().getAccountId());
+        return createUser(createUserData, authService.getLoggedInUser().getAccount(), role);
     }
 
     public UserBasicView createUser(UserDto createUserDto, Account account, Role role) {
@@ -98,11 +98,11 @@ public class UserServiceImpl implements UserService {
     }
 
     public Optional<UserView> getUserById(int id) {
-        return userRepository.findByIdAndAccountId(id, authService.getLoggedInUserAccountId(), UserView.class);
+        return userRepository.findByIdAndAccountId(id, authService.getLoggedInUser().getAccountId(), UserView.class);
     }
 
     public Optional<UserCompleteView> getCompleteUserById(int id) {
-        return userRepository.findByIdAndAccountId(id, authService.getLoggedInUserAccountId(), UserCompleteView.class);
+        return userRepository.findByIdAndAccountId(id, authService.getLoggedInUser().getAccountId(), UserCompleteView.class);
     }
 
     public Page<UserBasicView> getUsersByRole(int roleId, int accountId, int page, int limit) {

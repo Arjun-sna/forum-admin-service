@@ -27,22 +27,6 @@ public class AuthServiceImpl implements AuthService {
         throw new AuthContextException("Invalid auth context");
     }
 
-    public Integer getLoggedInUserId() {
-        return getAuthenticationPrincipal().getId();
-    }
-
-    public Integer getLoggedInUserAccountId() {
-        return getAuthenticationPrincipal().getAccountId();
-    }
-
-    public Account getLoggedInUserAccount() {
-        return getAuthenticationPrincipal().getAccount();
-    }
-
-    public String getLoggedInUserEmail() {
-        return getAuthenticationPrincipal().getEmail();
-    }
-
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)
                 .map(AuthUser::new)

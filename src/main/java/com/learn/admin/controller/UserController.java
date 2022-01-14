@@ -21,7 +21,7 @@ public class UserController {
 
     @GetMapping("/me")
     public Optional<UserCompleteView> getUserProfile() {
-        return userService.getCompleteUserById(authService.getLoggedInUserId());
+        return userService.getCompleteUserById(authService.getLoggedInUser().getId());
     }
 
     @GetMapping("/users")
@@ -32,7 +32,7 @@ public class UserController {
             @RequestParam(defaultValue = "firstName", required = false) UserSort sort,
             @RequestParam(defaultValue = "asc", required = false) UserOrder order
     ) {
-        return userService.getAllUser(authService.getLoggedInUserAccountId(), page, limit, sort, order);
+        return userService.getAllUser(authService.getLoggedInUser().getAccountId(), page, limit, sort, order);
     }
 
     @GetMapping("/users/{id}")

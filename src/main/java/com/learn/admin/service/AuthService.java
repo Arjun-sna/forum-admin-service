@@ -6,12 +6,4 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface AuthService extends UserDetailsService {
     AuthUser getLoggedInUser();
-
-    Integer getLoggedInUserId();
-
-    Integer getLoggedInUserAccountId();
-
-    Account getLoggedInUserAccount();
-
-    String getLoggedInUserEmail();
 }
