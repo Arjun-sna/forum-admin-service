@@ -7,6 +7,8 @@ import com.learn.admin.dto.account.AccountView;
 import com.learn.admin.dto.auth.SignUpDto;
 import com.learn.admin.dto.user.*;
 import com.learn.admin.exception.ValidationException;
+import com.learn.admin.kafka.KafkaProducerService;
+import com.learn.admin.kafka.PwResetNotification;
 import com.learn.admin.model.Account;
 import com.learn.admin.model.Role;
 import com.learn.admin.model.User;
@@ -45,6 +47,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     @Lazy
     private RoleService roleService;
+
+    @Autowired
+    @Lazy
+    private KafkaProducerService<PwResetNotification> pwResetNotificationService;
 
     public Page<UserView> getAllUser(int accountId, int page, int limit, UserSort userSort, UserOrder userOrder) {
         Sort sortConfig = Sort.by(userOrder == UserOrder.ASC
@@ -129,8 +135,8 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ValidationException("User not found"));
         String token = jwtUtil.generateAccessToken(
                 Token.of(user.getEmail(), user.getUsername(), TokenOperation.PASSWORD_RESET));
-        // TODO: 14/01/22 send token email
-        log.info(token);
+        pwResetNotificationService
+                .send(PwResetNotification.of(token, user.getId(), user.getUsername(), user.getEmail()));
     }
 
     @Override
