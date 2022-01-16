@@ -27,6 +27,7 @@ spring:
 
     topics:
       pw_reset_notification: pw_reset_notification
+      account_activation_notification: account_activation_notification
 
 security:
   jwt:

@@ -8,6 +8,7 @@ import com.learn.admin.dto.auth.SignUpDto;
 import com.learn.admin.dto.user.*;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.kafka.KafkaProducerService;
+import com.learn.admin.kafka.dto.AccountActivationNotification;
 import com.learn.admin.kafka.dto.PwResetNotification;
 import com.learn.admin.model.Account;
 import com.learn.admin.model.Role;
@@ -51,6 +52,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     @Lazy
     private KafkaProducerService<PwResetNotification> pwResetNotificationService;
+
+    @Autowired
+    @Lazy
+    private KafkaProducerService<AccountActivationNotification> accountActivationNotificationKafkaProducerService;
 
     public Page<UserView> getAllUser(int accountId, int page, int limit, UserSort userSort, UserOrder userOrder) {
         Sort sortConfig = Sort.by(userOrder == UserOrder.ASC
