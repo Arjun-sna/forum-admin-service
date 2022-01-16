@@ -26,7 +26,7 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
     topics:
-      email_notification: forum_app_sample
+      pw_reset_notification: pw_reset_notification
 
 security:
   jwt:

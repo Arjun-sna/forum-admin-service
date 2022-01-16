@@ -8,7 +8,7 @@ import com.learn.admin.dto.auth.SignUpDto;
 import com.learn.admin.dto.user.*;
 import com.learn.admin.exception.ValidationException;
 import com.learn.admin.kafka.KafkaProducerService;
-import com.learn.admin.kafka.PwResetNotification;
+import com.learn.admin.kafka.dto.PwResetNotification;
 import com.learn.admin.model.Account;
 import com.learn.admin.model.Role;
 import com.learn.admin.model.User;

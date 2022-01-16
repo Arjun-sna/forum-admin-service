@@ -24,7 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    public static final String[] PUBLIC_URLS = {"/sign_in", "/sign_up", "/sign_up", "/health", "/forgot-password"};
+    public static final String[] PUBLIC_URLS = {"/sign_in", "/account", "/sign_up", "/health", "/forgot-password"};
     public static final String[] PROTECTED_URLS = {"/reset-password"};
     private final UserDetailsService userDetailsService;
 
