@@ -12,6 +12,23 @@ spring:
     username: ${DB_USER}
     password: ${DB_PASSWORD}
 
+  kafka:
+    properties:
+      security:
+        protocol: SASL_SSL
+      sasl:
+        mechanism: PLAIN
+        jaas:
+          config: org.apache.kafka.common.security.plain.PlainLoginModule required username='${KAFKA_AUTH_USERNAME}' password='${KAFKA_AUTH_PASSWORD}';
+
+    producer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER}
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+    topics:
+      pw-reset-notification: pw_reset_notification
+      account-activation-notification: account_activation_notification
+
 security:
   jwt:
     prefix: "Bearer "

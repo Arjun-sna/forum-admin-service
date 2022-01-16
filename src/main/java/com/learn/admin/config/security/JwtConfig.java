@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Data
+// TODO: 16/01/22 use configuration properties annotation
 public class JwtConfig {
     @Value("${security.jwt.prefix}")
     private String prefix;
