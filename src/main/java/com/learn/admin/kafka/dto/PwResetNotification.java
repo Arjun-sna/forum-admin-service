@@ -1,7 +1,8 @@
 package com.learn.admin.kafka.dto;
 
 import com.learn.admin.kafka.KafkaTopicConfig;
-import lombok.*;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor(staticName = "of")

@@ -1,7 +1,6 @@
 package com.learn.admin.kafka.dto;
 
 import com.learn.admin.kafka.KafkaTopicConfig;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
