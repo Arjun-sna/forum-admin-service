@@ -15,6 +15,6 @@ public class AccountActivationNotification implements TopicAware {
 
     @Override
     public String getTopic(KafkaTopicConfig kafkaTopicConfig) {
-        return kafkaTopicConfig.getAccountActivationNotificationTopic();
+        return kafkaTopicConfig.getAccountActivationNotification();
     }
 }

@@ -13,6 +13,6 @@ public class PwResetNotification implements TopicAware {
 
     @Override
     public String getTopic(KafkaTopicConfig kafkaTopicConfig) {
-        return kafkaTopicConfig.getPwResetNotificationTopic();
+        return kafkaTopicConfig.getPwResetNotification();
     }
 }

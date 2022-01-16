@@ -26,8 +26,8 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
     topics:
-      pw_reset_notification: pw_reset_notification
-      account_activation_notification: account_activation_notification
+      pw-reset-notification: pw_reset_notification
+      account-activation-notification: account_activation_notification
 
 security:
   jwt:
