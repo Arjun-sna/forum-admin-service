@@ -1,13 +1,18 @@
 package com.learn.admin.kafka.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.learn.admin.kafka.KafkaTopicConfig;
+import lombok.*;
 
 @Data
-@AllArgsConstructor(staticName = "of")
-public class PwResetNotification {
-    private String token;
-    private int userId;
-    private String username;
-    private String email;
+@RequiredArgsConstructor(staticName = "of")
+public class PwResetNotification implements TopicAware {
+    private final String token;
+    private final int userId;
+    private final String username;
+    private final String email;
+
+    @Override
+    public String getTopic(KafkaTopicConfig kafkaTopicConfig) {
+        return kafkaTopicConfig.getPwResetNotificationTopic();
+    }
 }
