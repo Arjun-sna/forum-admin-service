@@ -24,6 +24,12 @@ public class UserController {
         return userService.getCompleteUserById(authService.getLoggedInUser().getId());
     }
 
+    @PatchMapping("/me")
+    public void updateUser(@Valid @RequestBody UpdateUserDto updateUserData) {
+        userService.updateUser(
+                authService.getLoggedInUser().getId(), authService.getLoggedInUser().getAccountId(), updateUserData);
+    }
+
     @GetMapping("/users")
     @CanViewUser
     public Page<UserView> getUser(
