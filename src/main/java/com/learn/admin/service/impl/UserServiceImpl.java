@@ -28,6 +28,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
@@ -97,6 +98,20 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         return NewUserDto.of(user);
+    }
+
+    @Override
+    public void updateUser(int userId, int accountId, UpdateUserDto updateUserDto) {
+        User user = this.validateAndGetUser(userId, accountId);
+
+        if (StringUtils.hasLength(updateUserDto.getFirstName())) {
+            user.setFirstName(updateUserDto.getFirstName());
+        }
+        if (StringUtils.hasLength(updateUserDto.getLastName())) {
+            user.setLastName(updateUserDto.getLastName());
+        }
+
+        userRepository.save(user);
     }
 
     public Optional<User> getUserByEmail(String email) {
