@@ -18,6 +18,8 @@ public interface UserService {
 
     UserBasicView createUser(UserDto createUserDto, Account account, Role role);
 
+    void updateUser(int userId, int accountId, UpdateUserDto updateUserDto);
+
     Optional<User> getUserByEmail(String email);
 
     Optional<UserView> getUserById(int id);
