@@ -13,10 +13,10 @@ import javax.validation.Valid;
 @RestController()
 @RequiredArgsConstructor
 public class AccountController {
-    private final AccountService accountService;
+  private final AccountService accountService;
 
-    @PostMapping("/account")
-    public AccountBasicView createAccount(@Valid @RequestBody CreateAccountDto createAccountData) {
-        return accountService.createAccount(createAccountData);
-    }
+  @PostMapping("/account")
+  public AccountBasicView createAccount(@Valid @RequestBody CreateAccountDto createAccountData) {
+    return accountService.createAccount(createAccountData);
+  }
 }

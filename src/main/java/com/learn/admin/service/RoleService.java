@@ -10,17 +10,17 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RoleService {
-    RoleView createRole(RoleDto createRoleDto, int accountId);
+  RoleView createRole(RoleDto createRoleDto, int accountId);
 
-    RoleView updateRole(int roleId, int accountId, RoleDto roleDto);
+  RoleView updateRole(int roleId, int accountId, RoleDto roleDto);
 
-    Optional<RoleView> getRole(int roleId, int accountId);
+  Optional<RoleView> getRole(int roleId, int accountId);
 
-    Role validateRoleId(int roleId, int accountId);
+  Role validateRoleId(int roleId, int accountId);
 
-    List<RoleView> getAllRolesInAccount(int accountId);
+  List<RoleView> getAllRolesInAccount(int accountId);
 
-    void deleteRole(int roleId, int accountId);
+  void deleteRole(int roleId, int accountId);
 
-    void assignMembers(int roleId, Account account, ArrayList<Integer> memberIds);
+  void assignMembers(int roleId, Account account, ArrayList<Integer> memberIds);
 }

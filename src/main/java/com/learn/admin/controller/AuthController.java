@@ -22,41 +22,41 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
-    private final AuthenticationManager authenticationManager;
-    private final UserService userService;
-    private final AuthService authService;
-    private final JwtUtil jwtUtil;
+  private final AuthenticationManager authenticationManager;
+  private final UserService userService;
+  private final AuthService authService;
+  private final JwtUtil jwtUtil;
 
-    @PostMapping("/sign_in")
-    public JwtDto signIn(@Valid @RequestBody SignInDto signInDto) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        signInDto.getEmail(),
-                        signInDto.getPassword()
-                )
-        );
+  @PostMapping("/sign_in")
+  public JwtDto signIn(@Valid @RequestBody SignInDto signInDto) {
+    Authentication authentication = authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(
+            signInDto.getEmail(),
+            signInDto.getPassword()
+        )
+    );
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        AuthUser authUser = (AuthUser) authentication.getPrincipal();
-        String token = jwtUtil.generateAccessToken(
-                Token.of(authUser.getEmail(), authUser.getUsername(), TokenOperation.AUTH));
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    AuthUser authUser = (AuthUser) authentication.getPrincipal();
+    String token = jwtUtil.generateAccessToken(
+        Token.of(authUser.getEmail(), authUser.getUsername(), TokenOperation.AUTH));
 
-        return JwtDto.of(token);
-    }
+    return JwtDto.of(token);
+  }
 
-    @PostMapping("sign_up")
-    public UserBasicView signUp(@Valid @RequestBody SignUpDto signUpDto) {
-        return userService.createUser(signUpDto);
-    }
+  @PostMapping("sign_up")
+  public UserBasicView signUp(@Valid @RequestBody SignUpDto signUpDto) {
+    return userService.createUser(signUpDto);
+  }
 
-    @PostMapping("/forgot-password")
-    public void forgotPassword(@Valid @RequestBody ForgotPwDto forgotPwDto) {
-        userService.initiatePwReset(forgotPwDto.getEmail());
-    }
+  @PostMapping("/forgot-password")
+  public void forgotPassword(@Valid @RequestBody ForgotPwDto forgotPwDto) {
+    userService.initiatePwReset(forgotPwDto.getEmail());
+  }
 
-    @PostMapping("/reset-password")
-    public void resetPassword(@Valid @RequestBody ResetPwDto resetPwDto) {
-        AuthUser loggedInUser = authService.getLoggedInUser();
-        userService.resetPassword(loggedInUser.getId(), loggedInUser.getAccountId(), resetPwDto.getPassword());
-    }
+  @PostMapping("/reset-password")
+  public void resetPassword(@Valid @RequestBody ResetPwDto resetPwDto) {
+    AuthUser loggedInUser = authService.getLoggedInUser();
+    userService.resetPassword(loggedInUser.getId(), loggedInUser.getAccountId(), resetPwDto.getPassword());
+  }
 }

@@ -3,15 +3,15 @@ package com.learn.admin.dto.user;
 import java.time.Instant;
 
 public interface UserBasicView {
-    int getId();
+  int getId();
 
-    String getFirstName();
+  String getFirstName();
 
-    String getLastName();
+  String getLastName();
 
-    String getUsername();
+  String getUsername();
 
-    String getEmail();
+  String getEmail();
 
-    Instant getCreatedAt();
+  Instant getCreatedAt();
 }

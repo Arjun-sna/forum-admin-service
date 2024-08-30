@@ -4,7 +4,7 @@ import com.learn.admin.dto.role.RoleBasicView;
 import com.learn.admin.dto.user.UserBasicView;
 
 public interface AccountView extends AccountBasicView {
-    UserBasicView getOwner();
+  UserBasicView getOwner();
 
-    RoleBasicView getDefaultRole();
+  RoleBasicView getDefaultRole();
 }

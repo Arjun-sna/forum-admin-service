@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "spring.kafka.topics")
 public class KafkaTopicConfig {
-    private String pwResetNotification;
-    private String accountActivationNotification;
+  private String pwResetNotification;
+  private String accountActivationNotification;
 }

@@ -26,40 +26,40 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
-    private final AccountRepository accountRepository;
+  private final AccountRepository accountRepository;
 
-    @Autowired
-    @Lazy
-    private UserService userService;
+  @Autowired
+  @Lazy
+  private UserService userService;
 
-    @Autowired
-    @Lazy
-    private RoleService roleService;
+  @Autowired
+  @Lazy
+  private RoleService roleService;
 
-    @Transactional
-    public AccountBasicView createAccount(CreateAccountDto createAccountData) {
-        Optional<AccountBasicView> existingAccount = accountRepository.findByName(
-                createAccountData.getAccountName(), AccountBasicView.class);
-        if (existingAccount.isPresent()) {
-            throw new ValidationException("Account already exists with same name");
-        }
-
-        Account account = new Account();
-        account.setName(createAccountData.getAccountName());
-        accountRepository.save(account);
-
-        RoleView adminRole = roleService.createRole(RoleDto.createAdminRole(), account.getId());
-        RoleView memberRole = roleService.createRole(RoleDto.createMemberRole(), account.getId());
-        UserBasicView newUser = userService.createUser(createAccountData, account, Role.instantOf(adminRole.getId()));
-
-        account.setDefaultRole(Role.instantOf(memberRole.getId()));
-        account.setOwner(User.instantOf(newUser.getId()));
-        accountRepository.save(account);
-
-        return NewAccountDto.of(account);
+  @Transactional
+  public AccountBasicView createAccount(CreateAccountDto createAccountData) {
+    Optional<AccountBasicView> existingAccount = accountRepository.findByName(
+        createAccountData.getAccountName(), AccountBasicView.class);
+    if (existingAccount.isPresent()) {
+      throw new ValidationException("Account already exists with same name");
     }
 
-    public Optional<AccountView> getAccountById(int accountId) {
-        return accountRepository.findById(accountId, AccountView.class);
-    }
+    Account account = new Account();
+    account.setName(createAccountData.getAccountName());
+    accountRepository.save(account);
+
+    RoleView adminRole = roleService.createRole(RoleDto.createAdminRole(), account.getId());
+    RoleView memberRole = roleService.createRole(RoleDto.createMemberRole(), account.getId());
+    UserBasicView newUser = userService.createUser(createAccountData, account, Role.instantOf(adminRole.getId()));
+
+    account.setDefaultRole(Role.instantOf(memberRole.getId()));
+    account.setOwner(User.instantOf(newUser.getId()));
+    accountRepository.save(account);
+
+    return NewAccountDto.of(account);
+  }
+
+  public Optional<AccountView> getAccountById(int accountId) {
+    return accountRepository.findById(accountId, AccountView.class);
+  }
 }

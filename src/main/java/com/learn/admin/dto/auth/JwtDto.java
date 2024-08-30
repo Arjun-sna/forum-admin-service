@@ -6,5 +6,5 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor(staticName = "of")
 public class JwtDto {
-    private final String jwtToken;
+  private final String jwtToken;
 }

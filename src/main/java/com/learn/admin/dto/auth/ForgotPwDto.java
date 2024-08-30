@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class ForgotPwDto {
-    @Email
-    @NotNull
-    private String email;
+  @Email
+  @NotNull
+  private String email;
 }

@@ -36,127 +36,127 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class UserServiceImpl implements UserService {
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final AuthService authService;
-    private final JwtUtil jwtUtil;
+  private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
+  private final AuthService authService;
+  private final JwtUtil jwtUtil;
 
-    @Autowired
-    @Lazy
-    private AccountService accountService;
+  @Autowired
+  @Lazy
+  private AccountService accountService;
 
-    @Autowired
-    @Lazy
-    private RoleService roleService;
+  @Autowired
+  @Lazy
+  private RoleService roleService;
 
-    @Autowired
-    @Lazy
-    private KafkaNotificationService<PwResetNotification> pwResetNotification;
+  @Autowired
+  @Lazy
+  private KafkaNotificationService<PwResetNotification> pwResetNotification;
 
-    public Page<UserView> getAllUser(int accountId, int page, int limit, UserSort userSort, UserOrder userOrder) {
-        Sort sortConfig = Sort.by(userOrder == UserOrder.ASC
-                ? Sort.Order.asc(userSort.value()) : Sort.Order.desc(userSort.value()));
-        Pageable pageRequest = PageRequest.of(page, limit, sortConfig);
-        return userRepository.findAllByAccountId(accountId, pageRequest);
+  public Page<UserView> getAllUser(int accountId, int page, int limit, UserSort userSort, UserOrder userOrder) {
+    Sort sortConfig = Sort.by(userOrder == UserOrder.ASC
+        ? Sort.Order.asc(userSort.value()) : Sort.Order.desc(userSort.value()));
+    Pageable pageRequest = PageRequest.of(page, limit, sortConfig);
+    return userRepository.findAllByAccountId(accountId, pageRequest);
+  }
+
+  public UserBasicView createUser(SignUpDto signUpData) {
+    // TODO: 04/01/22 move this to accountservice
+    AccountView accountView = accountService.
+        getAccountById(signUpData.getAccountId())
+        .orElseThrow(() -> new ValidationException("Couldn't find the account"));
+
+    return createUser(
+        signUpData,
+        Account.instantOf(accountView.getId()),
+        Role.instantOf(accountView.getDefaultRole().getId())
+    );
+  }
+
+  public UserBasicView createUser(CreateUserDto createUserData) {
+    Role role = roleService.validateRoleId(createUserData.getRoleId(), authService.getLoggedInUser().getAccountId());
+    return createUser(createUserData, authService.getLoggedInUser().getAccount(), role);
+  }
+
+  public UserBasicView createUser(UserDto createUserDto, Account account, Role role) {
+    // TODO: 14/01/22 replace with exists
+    Optional<User> existingUser = userRepository.findByEmailOrUsername(
+        createUserDto.getEmail(), createUserDto.getUsername());
+
+    if (existingUser.isPresent()) {
+      throw new ValidationException("User already exists with same email/username");
     }
 
-    public UserBasicView createUser(SignUpDto signUpData) {
-        // TODO: 04/01/22 move this to accountservice
-        AccountView accountView = accountService.
-                getAccountById(signUpData.getAccountId())
-                .orElseThrow(() -> new ValidationException("Couldn't find the account"));
+    User user = new User();
+    user.setAccount(account);
+    user.setRole(role);
+    user.setUsername(createUserDto.getUsername());
+    user.setFirstName(createUserDto.getFirstName());
+    user.setLastName(createUserDto.getLastName());
+    user.setEmail(createUserDto.getEmail());
+    user.setPassword(passwordEncoder.encode(createUserDto.getPassword()));
+    userRepository.save(user);
 
-        return createUser(
-                signUpData,
-                Account.instantOf(accountView.getId()),
-                Role.instantOf(accountView.getDefaultRole().getId())
-        );
+    return NewUserDto.of(user);
+  }
+
+  @Override
+  public void updateUser(int userId, int accountId, UpdateUserDto updateUserDto) {
+    User user = this.validateAndGetUser(userId, accountId);
+
+    if (StringUtils.hasLength(updateUserDto.getFirstName())) {
+      user.setFirstName(updateUserDto.getFirstName());
+    }
+    if (StringUtils.hasLength(updateUserDto.getLastName())) {
+      user.setLastName(updateUserDto.getLastName());
     }
 
-    public UserBasicView createUser(CreateUserDto createUserData) {
-        Role role = roleService.validateRoleId(createUserData.getRoleId(), authService.getLoggedInUser().getAccountId());
-        return createUser(createUserData, authService.getLoggedInUser().getAccount(), role);
-    }
+    userRepository.save(user);
+  }
 
-    public UserBasicView createUser(UserDto createUserDto, Account account, Role role) {
-        // TODO: 14/01/22 replace with exists
-        Optional<User> existingUser = userRepository.findByEmailOrUsername(
-                createUserDto.getEmail(), createUserDto.getUsername());
+  public Optional<User> getUserByEmail(String email) {
+    return userRepository.findByEmail(email);
+  }
 
-        if (existingUser.isPresent()) {
-            throw new ValidationException("User already exists with same email/username");
-        }
+  public Optional<UserView> getUserById(int id) {
+    return userRepository.findByIdAndAccountId(id, authService.getLoggedInUser().getAccountId(), UserView.class);
+  }
 
-        User user = new User();
-        user.setAccount(account);
-        user.setRole(role);
-        user.setUsername(createUserDto.getUsername());
-        user.setFirstName(createUserDto.getFirstName());
-        user.setLastName(createUserDto.getLastName());
-        user.setEmail(createUserDto.getEmail());
-        user.setPassword(passwordEncoder.encode(createUserDto.getPassword()));
-        userRepository.save(user);
+  public Optional<UserCompleteView> getCompleteUserById(int id) {
+    return userRepository.findByIdAndAccountId(id, authService.getLoggedInUser().getAccountId(), UserCompleteView.class);
+  }
 
-        return NewUserDto.of(user);
-    }
+  public Page<UserBasicView> getUsersByRole(int roleId, int accountId, int page, int limit) {
+    return userRepository.findAllByAccountIdAndRoleId(
+        accountId, roleId, PageRequest.of(page, limit), UserBasicView.class);
+  }
 
-    @Override
-    public void updateUser(int userId, int accountId, UpdateUserDto updateUserDto) {
-        User user = this.validateAndGetUser(userId, accountId);
+  private User validateAndGetUser(int userId, int accountId) {
+    Optional<User> existingUser = userRepository.findByIdAndAccountId(userId, accountId, User.class);
 
-        if (StringUtils.hasLength(updateUserDto.getFirstName())) {
-            user.setFirstName(updateUserDto.getFirstName());
-        }
-        if (StringUtils.hasLength(updateUserDto.getLastName())) {
-            user.setLastName(updateUserDto.getLastName());
-        }
+    return existingUser.orElseThrow(() -> new ValidationException("User not found"));
+  }
 
-        userRepository.save(user);
-    }
+  @Override
+  public void changeRole(int userId, Account account, Role role) {
+    User user = validateAndGetUser(userId, account.getId());
+    user.setRole(role);
+    userRepository.save(user);
+  }
 
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
+  @Override
+  public void initiatePwReset(String email) {
+    User user = userRepository.findByEmail(email)
+        .orElseThrow(() -> new ValidationException("User not found"));
+    String token = jwtUtil.generateAccessToken(
+        Token.of(user.getEmail(), user.getUsername(), TokenOperation.PASSWORD_RESET));
+    pwResetNotification.send(PwResetNotification.of(token, user.getId(), user.getUsername(), user.getEmail()));
+  }
 
-    public Optional<UserView> getUserById(int id) {
-        return userRepository.findByIdAndAccountId(id, authService.getLoggedInUser().getAccountId(), UserView.class);
-    }
-
-    public Optional<UserCompleteView> getCompleteUserById(int id) {
-        return userRepository.findByIdAndAccountId(id, authService.getLoggedInUser().getAccountId(), UserCompleteView.class);
-    }
-
-    public Page<UserBasicView> getUsersByRole(int roleId, int accountId, int page, int limit) {
-        return userRepository.findAllByAccountIdAndRoleId(
-                accountId, roleId, PageRequest.of(page, limit), UserBasicView.class);
-    }
-
-    private User validateAndGetUser(int userId, int accountId) {
-        Optional<User> existingUser = userRepository.findByIdAndAccountId(userId, accountId, User.class);
-
-        return existingUser.orElseThrow(() -> new ValidationException("User not found"));
-    }
-
-    @Override
-    public void changeRole(int userId, Account account, Role role) {
-        User user = validateAndGetUser(userId, account.getId());
-        user.setRole(role);
-        userRepository.save(user);
-    }
-
-    @Override
-    public void initiatePwReset(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ValidationException("User not found"));
-        String token = jwtUtil.generateAccessToken(
-                Token.of(user.getEmail(), user.getUsername(), TokenOperation.PASSWORD_RESET));
-        pwResetNotification.send(PwResetNotification.of(token, user.getId(), user.getUsername(), user.getEmail()));
-    }
-
-    @Override
-    public void resetPassword(int userId, int accountId, @NonNull String password) {
-        User user = this.validateAndGetUser(userId, accountId);
-        user.setPassword(passwordEncoder.encode(password));
-        userRepository.save(user);
-    }
+  @Override
+  public void resetPassword(int userId, int accountId, @NonNull String password) {
+    User user = this.validateAndGetUser(userId, accountId);
+    user.setPassword(passwordEncoder.encode(password));
+    userRepository.save(user);
+  }
 }

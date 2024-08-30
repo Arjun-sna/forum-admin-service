@@ -11,18 +11,18 @@ import java.io.IOException;
 
 public class PwResetTokenFilter extends JwtFilter {
 
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
-        return !request.getRequestURI().equalsIgnoreCase("/reset-password");
+  @Override
+  protected boolean shouldNotFilter(HttpServletRequest request) {
+    return !request.getRequestURI().equalsIgnoreCase("/reset-password");
+  }
+
+  @Override
+  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    final Token token = validateAndGetToken(request);
+    if (token != null && token.getOperation() == TokenOperation.PASSWORD_RESET) {
+      setSecurityContext(request, token);
     }
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        final Token token = validateAndGetToken(request);
-        if (token != null && token.getOperation() == TokenOperation.PASSWORD_RESET) {
-            setSecurityContext(request, token);
-        }
-
-        filterChain.doFilter(request, response);
-    }
+    filterChain.doFilter(request, response);
+  }
 }

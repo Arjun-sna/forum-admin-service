@@ -12,17 +12,17 @@ import javax.persistence.*;
 @Setter
 @Table(name = "roles")
 public class Role extends Auditable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
-    private String name;
-    private int accountId;
-    private String permissions;
+  private String name;
+  private int accountId;
+  private String permissions;
 
-    public static Role instantOf(int id) {
-        Role role = new Role();
-        role.setId(id);
-        return role;
-    }
+  public static Role instantOf(int id) {
+    Role role = new Role();
+    role.setId(id);
+    return role;
+  }
 }

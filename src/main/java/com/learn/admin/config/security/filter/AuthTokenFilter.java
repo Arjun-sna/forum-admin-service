@@ -16,21 +16,21 @@ import java.util.stream.Stream;
 @Slf4j
 public class AuthTokenFilter extends JwtFilter {
 
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
-        String currentUrl = request.getRequestURI();
-        return Stream
-                .concat(Arrays.stream(SecurityConfig.PROTECTED_URLS), Arrays.stream(SecurityConfig.PUBLIC_URLS))
-                .anyMatch(currentUrl::equalsIgnoreCase);
+  @Override
+  protected boolean shouldNotFilter(HttpServletRequest request) {
+    String currentUrl = request.getRequestURI();
+    return Stream
+        .concat(Arrays.stream(SecurityConfig.PROTECTED_URLS), Arrays.stream(SecurityConfig.PUBLIC_URLS))
+        .anyMatch(currentUrl::equalsIgnoreCase);
+  }
+
+  @Override
+  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    final Token token = validateAndGetToken(request);
+    if (token != null && token.getOperation() == TokenOperation.AUTH) {
+      setSecurityContext(request, token);
     }
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        final Token token = validateAndGetToken(request);
-        if (token != null && token.getOperation() == TokenOperation.AUTH) {
-            setSecurityContext(request, token);
-        }
-
-        filterChain.doFilter(request, response);
-    }
+    filterChain.doFilter(request, response);
+  }
 }

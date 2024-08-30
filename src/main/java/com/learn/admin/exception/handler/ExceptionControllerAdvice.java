@@ -16,41 +16,41 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 @Slf4j
 public class ExceptionControllerAdvice {
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleMethodArgumentsValidationError(MethodArgumentNotValidException ex) {
-        String errorMessage = ex.getBindingResult().getFieldErrors().stream()
-                .map(error -> error.getField() + " " + error.getDefaultMessage())
-                .collect(Collectors.joining("; "));
-        log.info(errorMessage);
-        return ResponseEntity.badRequest().body(
-                new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), errorMessage, null));
-    }
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<ErrorResponse> handleMethodArgumentsValidationError(MethodArgumentNotValidException ex) {
+    String errorMessage = ex.getBindingResult().getFieldErrors().stream()
+        .map(error -> error.getField() + " " + error.getDefaultMessage())
+        .collect(Collectors.joining("; "));
+    log.info(errorMessage);
+    return ResponseEntity.badRequest().body(
+        new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), errorMessage, null));
+  }
 
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ErrorResponse> handleMethodArgumentsTypeValidationError(MethodArgumentTypeMismatchException ex) {
-        log.info(ex.getMessage());
-        return ResponseEntity.badRequest().body(
-                new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), "Invalid argument type", null));
-    }
+  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+  public ResponseEntity<ErrorResponse> handleMethodArgumentsTypeValidationError(MethodArgumentTypeMismatchException ex) {
+    log.info(ex.getMessage());
+    return ResponseEntity.badRequest().body(
+        new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), "Invalid argument type", null));
+  }
 
-    @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<ErrorResponse> handleValidationException(ValidationException ex) {
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), ex.getMessage(), null);
-        log.info(ex.getMessage());
-        return ResponseEntity.badRequest().body(errorResponse);
-    }
+  @ExceptionHandler(ValidationException.class)
+  public ResponseEntity<ErrorResponse> handleValidationException(ValidationException ex) {
+    ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), ex.getMessage(), null);
+    log.info(ex.getMessage());
+    return ResponseEntity.badRequest().body(errorResponse);
+  }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorResponse> handleUnCaughtException(RuntimeException ex) {
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.toString(), "Internal error", null);
-        log.info(ex.getMessage());
-        return ResponseEntity.internalServerError().body(errorResponse);
-    }
+  @ExceptionHandler(RuntimeException.class)
+  public ResponseEntity<ErrorResponse> handleUnCaughtException(RuntimeException ex) {
+    ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.toString(), "Internal error", null);
+    log.info(ex.getMessage());
+    return ResponseEntity.internalServerError().body(errorResponse);
+  }
 
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), "Invalid data", null);
-        log.info(ex.getMessage());
-        return ResponseEntity.badRequest().body(errorResponse);
-    }
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+    ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), "Invalid data", null);
+    log.info(ex.getMessage());
+    return ResponseEntity.badRequest().body(errorResponse);
+  }
 }

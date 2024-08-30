@@ -1,7 +1,7 @@
 package com.learn.admin.dto.account;
 
 public interface AccountBasicView {
-    int getId();
+  int getId();
 
-    String getName();
+  String getName();
 }

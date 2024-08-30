@@ -7,11 +7,11 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class NewRoleDto implements RoleView {
-    int id;
-    String name;
-    String permissions;
+  int id;
+  String name;
+  String permissions;
 
-    public static NewRoleDto of(Role role) {
-        return new NewRoleDto(role.getId(), role.getName(), role.getPermissions());
-    }
+  public static NewRoleDto of(Role role) {
+    return new NewRoleDto(role.getId(), role.getName(), role.getPermissions());
+  }
 }
