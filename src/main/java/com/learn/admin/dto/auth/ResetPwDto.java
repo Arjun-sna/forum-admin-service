@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 
 @Data
 public class ResetPwDto {
-    @NotBlank
-    @Size(min = 8, max = 16)
-    private String password;
+  @NotBlank
+  @Size(min = 8, max = 16)
+  private String password;
 }

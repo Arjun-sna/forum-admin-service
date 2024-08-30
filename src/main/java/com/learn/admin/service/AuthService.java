@@ -4,5 +4,5 @@ import com.learn.admin.model.AuthUser;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface AuthService extends UserDetailsService {
-    AuthUser getLoggedInUser();
+  AuthUser getLoggedInUser();
 }

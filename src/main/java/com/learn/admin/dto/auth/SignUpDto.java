@@ -9,6 +9,6 @@ import javax.validation.constraints.Positive;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class SignUpDto extends UserDto {
-    @Positive(message = "Invalid account id")
-    private int accountId;
+  @Positive(message = "Invalid account id")
+  private int accountId;
 }

@@ -7,10 +7,10 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class NewAccountDto implements AccountBasicView {
-    private int id;
-    private String name;
+  private int id;
+  private String name;
 
-    public static NewAccountDto of(Account account) {
-        return new NewAccountDto(account.getId(), account.getName());
-    }
+  public static NewAccountDto of(Account account) {
+    return new NewAccountDto(account.getId(), account.getName());
+  }
 }

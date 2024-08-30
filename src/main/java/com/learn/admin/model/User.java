@@ -14,38 +14,38 @@ import javax.persistence.*;
 @Setter
 @Table(name = "users")
 public class User extends Auditable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String username;
-    private String firstName;
-    private String lastName;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
+  private String username;
+  private String firstName;
+  private String lastName;
 
-    @Column(unique = true)
-    private String email;
+  @Column(unique = true)
+  private String email;
 
-    @JsonIgnore
-    private String password;
+  @JsonIgnore
+  private String password;
 
-    @Column(name = "account_id", insertable = false, updatable = false)
-    @Setter(AccessLevel.NONE)
-    private int accountId;
+  @Column(name = "account_id", insertable = false, updatable = false)
+  @Setter(AccessLevel.NONE)
+  private int accountId;
 
-    @OneToOne
-    @JoinColumn(name = "account_id", referencedColumnName = "id")
-    private Account account;
+  @OneToOne
+  @JoinColumn(name = "account_id", referencedColumnName = "id")
+  private Account account;
 
-    @Column(name = "role_id", insertable = false, updatable = false)
-    @Setter(AccessLevel.NONE)
-    private int roleId;
+  @Column(name = "role_id", insertable = false, updatable = false)
+  @Setter(AccessLevel.NONE)
+  private int roleId;
 
-    @OneToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
-    private Role role;
+  @OneToOne
+  @JoinColumn(name = "role_id", referencedColumnName = "id")
+  private Role role;
 
-    public static User instantOf(int id) {
-        User user = new User();
-        user.setId(id);
-        return user;
-    }
+  public static User instantOf(int id) {
+    User user = new User();
+    user.setId(id);
+    return user;
+  }
 }

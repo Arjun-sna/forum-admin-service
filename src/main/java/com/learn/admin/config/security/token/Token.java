@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(staticName = "of")
 @NoArgsConstructor
 public class Token {
-    private String email;
-    private String username;
-    private TokenOperation operation;
+  private String email;
+  private String username;
+  private TokenOperation operation;
 }

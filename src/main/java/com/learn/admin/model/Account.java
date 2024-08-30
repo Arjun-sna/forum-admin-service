@@ -12,23 +12,23 @@ import javax.persistence.*;
 @Setter
 @Table(name = "accounts")
 public class Account extends Auditable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
-    private String name;
+  private String name;
 
-    @OneToOne
-    @JoinColumn(name = "owner_id", referencedColumnName = "id")
-    private User owner;
+  @OneToOne
+  @JoinColumn(name = "owner_id", referencedColumnName = "id")
+  private User owner;
 
-    @OneToOne
-    @JoinColumn(name = "default_role_id", referencedColumnName = "id")
-    private Role defaultRole;
+  @OneToOne
+  @JoinColumn(name = "default_role_id", referencedColumnName = "id")
+  private Role defaultRole;
 
-    public static Account instantOf(int id) {
-        Account account = new Account();
-        account.setId(id);
-        return account;
-    }
+  public static Account instantOf(int id) {
+    Account account = new Account();
+    account.setId(id);
+    return account;
+  }
 }

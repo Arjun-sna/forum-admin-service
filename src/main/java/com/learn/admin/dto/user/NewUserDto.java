@@ -9,19 +9,19 @@ import java.time.Instant;
 @Data
 @AllArgsConstructor
 public class NewUserDto implements UserBasicView {
-    private int id;
-    private String firstName;
-    private String lastName;
-    private String username;
-    private String email;
-    private Instant createdAt;
+  private int id;
+  private String firstName;
+  private String lastName;
+  private String username;
+  private String email;
+  private Instant createdAt;
 
-    public static NewUserDto of(User user) {
-        return new NewUserDto(user.getId(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getCreatedAt());
-    }
+  public static NewUserDto of(User user) {
+    return new NewUserDto(user.getId(),
+        user.getFirstName(),
+        user.getLastName(),
+        user.getUsername(),
+        user.getEmail(),
+        user.getCreatedAt());
+  }
 }

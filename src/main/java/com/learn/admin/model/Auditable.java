@@ -15,9 +15,9 @@ import java.time.Instant;
 @Setter
 @EntityListeners(AuditingEntityListener.class)
 public abstract class Auditable {
-    @CreatedDate
-    private Instant createdAt;
+  @CreatedDate
+  private Instant createdAt;
 
-    @LastModifiedDate
-    private Instant updatedAt;
+  @LastModifiedDate
+  private Instant updatedAt;
 }

@@ -10,27 +10,27 @@ import org.springframework.data.domain.Page;
 import java.util.Optional;
 
 public interface UserService {
-    Page<UserView> getAllUser(int accountId, int page, int limit, UserSort userSort, UserOrder userOrder);
+  Page<UserView> getAllUser(int accountId, int page, int limit, UserSort userSort, UserOrder userOrder);
 
-    UserBasicView createUser(SignUpDto signUpData);
+  UserBasicView createUser(SignUpDto signUpData);
 
-    UserBasicView createUser(CreateUserDto createUserData);
+  UserBasicView createUser(CreateUserDto createUserData);
 
-    UserBasicView createUser(UserDto createUserDto, Account account, Role role);
+  UserBasicView createUser(UserDto createUserDto, Account account, Role role);
 
-    void updateUser(int userId, int accountId, UpdateUserDto updateUserDto);
+  void updateUser(int userId, int accountId, UpdateUserDto updateUserDto);
 
-    Optional<User> getUserByEmail(String email);
+  Optional<User> getUserByEmail(String email);
 
-    Optional<UserView> getUserById(int id);
+  Optional<UserView> getUserById(int id);
 
-    Optional<UserCompleteView> getCompleteUserById(int id);
+  Optional<UserCompleteView> getCompleteUserById(int id);
 
-    Page<UserBasicView> getUsersByRole(int roleId, int accountId, int page, int limit);
+  Page<UserBasicView> getUsersByRole(int roleId, int accountId, int page, int limit);
 
-    void changeRole(int userId, Account account, Role roleId);
+  void changeRole(int userId, Account account, Role roleId);
 
-    void initiatePwReset(String email);
+  void initiatePwReset(String email);
 
-    void resetPassword(int userId, int accountId, String password);
+  void resetPassword(int userId, int accountId, String password);
 }

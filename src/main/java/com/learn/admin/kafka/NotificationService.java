@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Slf4j
 public class NotificationService<T extends TopicAware> implements KafkaNotificationService<T> {
-    private final KafkaTemplate<Integer, T> kafkaTemplate;
-    private final KafkaTopicConfig kafkaTopicConfig;
+  private final KafkaTemplate<Integer, T> kafkaTemplate;
+  private final KafkaTopicConfig kafkaTopicConfig;
 
-    @Override
-    public void send(T message) {
-        kafkaTemplate.send(message.getTopic(kafkaTopicConfig), message);
-    }
+  @Override
+  public void send(T message) {
+    kafkaTemplate.send(message.getTopic(kafkaTopicConfig), message);
+  }
 }

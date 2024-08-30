@@ -13,22 +13,22 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
-    private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
-    public AuthUser getLoggedInUser() {
-        return getAuthenticationPrincipal();
-    }
+  public AuthUser getLoggedInUser() {
+    return getAuthenticationPrincipal();
+  }
 
-    private AuthUser getAuthenticationPrincipal() {
-        if (SecurityContextHolder.getContext().getAuthentication() != null) {
-            return (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        }
-        throw new AuthContextException("Invalid auth context");
+  private AuthUser getAuthenticationPrincipal() {
+    if (SecurityContextHolder.getContext().getAuthentication() != null) {
+      return (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
+    throw new AuthContextException("Invalid auth context");
+  }
 
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username)
-                .map(AuthUser::new)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-    }
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    return userRepository.findByEmail(username)
+        .map(AuthUser::new)
+        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+  }
 }

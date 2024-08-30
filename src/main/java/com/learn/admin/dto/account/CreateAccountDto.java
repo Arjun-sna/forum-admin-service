@@ -11,6 +11,6 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 public class CreateAccountDto extends UserDto {
-    @Size(min = 3, max = 20)
-    private String accountName;
+  @Size(min = 3, max = 20)
+  private String accountName;
 }

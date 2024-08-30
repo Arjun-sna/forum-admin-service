@@ -9,10 +9,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
-    @Override
-    public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(new UserSortConverter());
-        registry.addConverter(new UserOrderConverter());
-        registry.addConverter(new PermissionConverter());
-    }
+  @Override
+  public void addFormatters(FormatterRegistry registry) {
+    registry.addConverter(new UserSortConverter());
+    registry.addConverter(new UserOrderConverter());
+    registry.addConverter(new PermissionConverter());
+  }
 }

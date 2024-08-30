@@ -1,7 +1,7 @@
 package com.learn.admin.dto.role;
 
 public interface RoleBasicView {
-    int getId();
+  int getId();
 
-    String getName();
+  String getName();
 }

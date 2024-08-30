@@ -7,7 +7,7 @@ import com.learn.admin.dto.account.CreateAccountDto;
 import java.util.Optional;
 
 public interface AccountService {
-    AccountBasicView createAccount(CreateAccountDto createAccountData);
+  AccountBasicView createAccount(CreateAccountDto createAccountData);
 
-    Optional<AccountView> getAccountById(int accountId);
+  Optional<AccountView> getAccountById(int accountId);
 }

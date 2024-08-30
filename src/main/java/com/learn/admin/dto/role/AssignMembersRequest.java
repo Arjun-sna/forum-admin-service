@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 @Data
 public class AssignMembersRequest {
-    @NotNull
-    @Size(min = 1)
-    private ArrayList<Integer> memberIds;
+  @NotNull
+  @Size(min = 1)
+  private ArrayList<Integer> memberIds;
 }

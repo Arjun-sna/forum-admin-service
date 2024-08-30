@@ -16,43 +16,43 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
-    private final AuthService authService;
+  private final UserService userService;
+  private final AuthService authService;
 
-    @GetMapping("/me")
-    public Optional<UserCompleteView> getUserProfile() {
-        return userService.getCompleteUserById(authService.getLoggedInUser().getId());
-    }
+  @GetMapping("/me")
+  public Optional<UserCompleteView> getUserProfile() {
+    return userService.getCompleteUserById(authService.getLoggedInUser().getId());
+  }
 
-    @PatchMapping("/me")
-    public void updateUser(@Valid @RequestBody UpdateUserDto updateUserData) {
-        userService.updateUser(
-                authService.getLoggedInUser().getId(), authService.getLoggedInUser().getAccountId(), updateUserData);
-    }
+  @PatchMapping("/me")
+  public void updateUser(@Valid @RequestBody UpdateUserDto updateUserData) {
+    userService.updateUser(
+        authService.getLoggedInUser().getId(), authService.getLoggedInUser().getAccountId(), updateUserData);
+  }
 
-    @GetMapping("/users")
-    @CanViewUser
-    public Page<UserView> getUser(
-            @RequestParam(defaultValue = "0", required = false) Integer page,
-            @RequestParam(defaultValue = "10", required = false) Integer limit,
-            @RequestParam(defaultValue = "firstName", required = false) UserSort sort,
-            @RequestParam(defaultValue = "asc", required = false) UserOrder order
-    ) {
-        return userService.getAllUser(authService.getLoggedInUser().getAccountId(), page, limit, sort, order);
-    }
+  @GetMapping("/users")
+  @CanViewUser
+  public Page<UserView> getUser(
+      @RequestParam(defaultValue = "0", required = false) Integer page,
+      @RequestParam(defaultValue = "10", required = false) Integer limit,
+      @RequestParam(defaultValue = "firstName", required = false) UserSort sort,
+      @RequestParam(defaultValue = "asc", required = false) UserOrder order
+  ) {
+    return userService.getAllUser(authService.getLoggedInUser().getAccountId(), page, limit, sort, order);
+  }
 
-    @GetMapping("/users/{id}")
-    @CanViewUser
-    public UserView getUserById(
-            @PathVariable Integer id
-    ) {
-        return userService.getUserById(id)
-                .orElseThrow(() -> new ValidationException("User not found"));
-    }
+  @GetMapping("/users/{id}")
+  @CanViewUser
+  public UserView getUserById(
+      @PathVariable Integer id
+  ) {
+    return userService.getUserById(id)
+        .orElseThrow(() -> new ValidationException("User not found"));
+  }
 
-    @PostMapping("/users")
-    @CanCreateUser
-    public UserBasicView createUser(@Valid @RequestBody CreateUserDto createUserData) {
-        return userService.createUser(createUserData);
-    }
+  @PostMapping("/users")
+  @CanCreateUser
+  public UserBasicView createUser(@Valid @RequestBody CreateUserDto createUserData) {
+    return userService.createUser(createUserData);
+  }
 }

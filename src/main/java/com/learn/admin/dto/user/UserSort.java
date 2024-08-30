@@ -4,30 +4,30 @@ package com.learn.admin.dto.user;
 import java.util.stream.Stream;
 
 public enum UserSort {
-    FIRSTNAME("firstName"),
-    LASTNAME("lastName"),
-    EMAIL("email");
+  FIRSTNAME("firstName"),
+  LASTNAME("lastName"),
+  EMAIL("email");
 
-    private static final UserSort[] VALUES;
+  private static final UserSort[] VALUES;
 
-    static {
-        VALUES = values();
-    }
+  static {
+    VALUES = values();
+  }
 
-    private final String fieldName;
+  private final String fieldName;
 
-    UserSort(String fieldName) {
-        this.fieldName = fieldName;
-    }
+  UserSort(String fieldName) {
+    this.fieldName = fieldName;
+  }
 
-    public static UserSort of(String fieldName) {
-        return Stream.of(VALUES)
-                .filter(value -> value.fieldName.equalsIgnoreCase(fieldName))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("No matching constant for [" + fieldName + "]"));
-    }
+  public static UserSort of(String fieldName) {
+    return Stream.of(VALUES)
+        .filter(value -> value.fieldName.equalsIgnoreCase(fieldName))
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException("No matching constant for [" + fieldName + "]"));
+  }
 
-    public String value() {
-        return this.fieldName;
-    }
+  public String value() {
+    return this.fieldName;
+  }
 }
